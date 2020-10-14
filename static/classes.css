@@ -1,0 +1,17 @@
+.my-form-container{
+    margin: 150px auto;
+    width: 400px;
+    align-content: center;
+    border-style: groove;
+    border-radius: 15px;
+    padding: 40px 50px;
+    background-color: cyan;
+}
+
+.link{
+    width: 100px;
+}
+
+.my-form{
+    margin:3px 0px;
+}

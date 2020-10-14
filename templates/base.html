@@ -1,0 +1,33 @@
+{% extends 'reference.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <div style="text-align: right;">
+        <a href ="upload">Upload a new post</a><br>
+        <a href="logout">logout</a>
+    </div>
+    <form action="searchPost" method="POST">
+        {% csrf_token %}
+        <input type="text" name="searchKey" placeholder="Search">
+        <input type="submit" value="Go">
+    </form>
+    {% if posts %}
+        {% for post in posts %}
+            <div class="card">
+                <div class="card-header">{{ post.owner.username }}</div>
+                <!-- <h3>This post is about {{ post.place }}</h3> -->
+                <div class="card-body"><img src="{{post.img.url}}" height="300px" width="auto"/></div>
+                <div class="card-footer">{{ post.experience }}</div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h4>Sorry! Nothing to show here.</h4>
+    {% endif %}
+
+{% else %}
+    <h2>You are required to sign in for viewing this page.</h2>
+    <a href = "{% url 'login' %}">login</a>
+{% endif %}
+
+{% endblock %}
