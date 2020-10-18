@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.urls import reverse
 from .models import Posts
 from . import forms
 
@@ -41,3 +42,10 @@ def searchPost(request):
         'posts' : filtered_posts
     }
     return render(request, "base.html", context)
+
+def likePost(request):
+    post = Posts.objects.get(id = request.POST.get('post_id'))
+    post.likes.add(request.user)
+    post.total_likes = post.count_likes()
+    post.save()
+    return HttpResponseRedirect(reverse('custom_user'))
