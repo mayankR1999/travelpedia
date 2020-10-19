@@ -23,3 +23,14 @@
     background-color: beige;
     border-radius: 10px;
 }
+
+.mycard{
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 30px;
+}
+
+.myoptions{
+    float: right;
+    margin: 30px 20px 0px 0px;
+}
