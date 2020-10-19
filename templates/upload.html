@@ -1,13 +1,16 @@
 {% extends 'basehtmlpage.html' %}
 
 {% block content %}
-
-<div>
-    <form class="site-form" action="upload" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{form}}
-        <input type="submit">
-    </form>
+<div class="container">
+    <div class="my-form-container">
+        <form class="site-form" action="upload" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {{form}}
+            </div>
+            <input type="submit">
+        </form>
+    </div>
 </div>
 
 {% endblock %}

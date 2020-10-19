@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User, auth
+from django.contrib import messages
+from django.urls import reverse
+import re
 
 # Create your views here.
 def register(request):
@@ -13,19 +16,37 @@ def register(request):
         email = request.POST["email"]
         pass1 = request.POST["pass1"]
         pass2 = request.POST["pass2"]
+        
+        match_special_char = re.search(r"[^A-Za-z0-9]", pass1)
+        match_number = re.search(r"[0-9]", pass1)
+        match_uppercase = re.search(r"[A-Z]", pass1)
+        match_lowercase = re.search(r"[a-z]", pass1)
+        
+        valid = True
 
-        if pass1 == pass2:
-            if User.object.filter(username = user_name).exist():
-                pass # pass message
-            elif User.object.filter(email = email).exist():
-                pass # pass message
-            else:
-                user = User.objects.create_user(username = user_name, email = email, password = pass1
-                ,first_name = first_name, last_name = last_name)
-                user.save()
+        if len(user_name) < 4:
+            valid = False
+            messages.info(request, 'invalid username, must contain atleast 4 letters.')
+        if User.objects.filter(username = user_name).exists():
+            valid = False
+            messages.info(request, 'username already exists.')
+        if User.objects.filter(email = email).exists():
+            valid = False
+            messages.info(request, 'email already associated with an account.')
+        if pass1 != pass2:
+            valid = False
+            messages.info(request, 'passwords do not match.')
+        if not match_lowercase or not match_number or not match_special_char or not match_uppercase:
+            valid = False
+            messages.info(request, 'password should contain atleast a number,'
+                                    + ' an special character, a lowercase and an uppercase letter.')
+        if valid is True:
+            user = User.objects.create_user(username = user_name, email = email, password = pass1
+            ,first_name = first_name, last_name = last_name)
+            user.save()
+            return redirect('/')
         else:
-            pass # pass message
-        return redirect('/')
+            return HttpResponseRedirect(reverse('register'))
 
     else:
         return render(request, 'register.html')
