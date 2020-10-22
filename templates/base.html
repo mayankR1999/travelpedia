@@ -6,7 +6,7 @@
 
     <div class="myoptions">
         <a href ="upload">Upload a new post</a><br>
-        <a href="logout">logout</a><br>
+        <a href="logout">Logout</a><br>
         <a href="myposts">Show my posts</a>
     </div>
 
@@ -24,7 +24,15 @@
             <div class="card mycard">
                 <div class="card-header">
                     {{ post.owner.username }}
-                    <h3>This post is about {{ post.place }}</h3>
+                    {% if post.owner == user %}
+                        <div style="float: right;">
+                            <button type="button" class="fas fa-bars" data-toggle="dropdown"></button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'delete_post' post.id %}">Delete</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <h4>This post is about {{ post.place }}</h4>
                 </div>
                 <div class="card-body"><img src="{{post.img.url}}" height="auto" width="100%"></div>
                 <div class="card-footer">

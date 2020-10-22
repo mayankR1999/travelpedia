@@ -60,3 +60,8 @@ def show_my_posts(request):
         'posts': my_posts
     }
     return render(request, "base.html", context)
+
+def delete_post(request, id):
+    post = Posts.objects.get(id = id)
+    post.delete()
+    return redirect('../../base')
