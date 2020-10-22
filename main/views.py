@@ -43,9 +43,20 @@ def searchPost(request):
     }
     return render(request, "base.html", context)
 
+
 def likePost(request):
     post = Posts.objects.get(id = request.POST.get('post_id'))
     post.likes.add(request.user)
     post.total_likes = post.count_likes()
     post.save()
     return HttpResponseRedirect(reverse('custom_user'))
+
+
+def show_my_posts(request):
+    all_posts = Posts.objects.all()
+    user = request.user
+    my_posts = [post for post in all_posts if post.owner == user]
+    context = {
+        'posts': my_posts
+    }
+    return render(request, "base.html", context)
