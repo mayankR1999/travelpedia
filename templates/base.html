@@ -4,12 +4,15 @@
 
 {% if user.is_authenticated %}
 
-    <div class="myoptions">
-        <a href ="upload">Upload a new post</a><br>
-        <a href="logout">Logout</a><br>
-        <a href="myposts">Show my posts</a>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href ="upload">Upload</a>
+        <a href="myposts">My posts</a>
+        <a href="logout">Logout</a>
     </div>
-
+    <div style="float: left;">
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Options</span>
+    </div>
     <div class="container mycontainer">
         <form action="searchPost" method="POST">
             {% csrf_token %}
@@ -54,5 +57,15 @@
     <h2>You are required to sign in for viewing this page.</h2>
     <a href = "{% url 'login' %}">login</a>
 {% endif %}
+
+<script>
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "250px";
+    }
+    
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
 
 {% endblock %}
