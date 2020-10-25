@@ -36,8 +36,9 @@ def post_upload(request):
 
 
 def searchPost(request):
-    key = request.POST['searchKey']
-    filtered_posts = Posts.objects.filter(place__contains=key)
+    key = request.POST['searchKey'].lower()
+    all_posts = Posts.objects.all()
+    filtered_posts = [post for post in all_posts if post.place.lower() == key]
     context = {
         'posts' : filtered_posts
     }
