@@ -21,6 +21,7 @@ def register(request):
         match_number = re.search(r"[0-9]", pass1)
         match_uppercase = re.search(r"[A-Z]", pass1)
         match_lowercase = re.search(r"[a-z]", pass1)
+        pass_length = True if len(pass1 >= 8) else False
         
         valid = True
 
@@ -36,9 +37,9 @@ def register(request):
         if pass1 != pass2:
             valid = False
             messages.info(request, 'passwords do not match.')
-        if not match_lowercase or not match_number or not match_special_char or not match_uppercase:
+        if not match_lowercase or not match_number or not match_special_char or not match_uppercase or not pass_length:
             valid = False
-            messages.info(request, 'password should contain atleast a number,'
+            messages.info(request, 'password should contain atleast a number, must contain atleast 8 characters,'
                                     + ' an special character, a lowercase and an uppercase letter.')
         if valid is True:
             user = User.objects.create_user(username = user_name, email = email, password = pass1
@@ -56,13 +57,13 @@ def login(request):
     if request.method == 'POST':
         username = request.POST['user_name']
         pass_word = request.POST['pass']
-
         user = auth.authenticate(username = username, password = pass_word)
         if user:
             auth.login(request, user)
             return redirect('base/')
         else:
-            pass # pass message
+            messages.info(request, "Username or password didn't match") # pass message
+            return HttpResponseRedirect(reverse(login))
     else:
         return render(request, 'login.html')
 
