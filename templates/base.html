@@ -3,22 +3,32 @@
 {% block content %}
 
 {% if user.is_authenticated %}
+    
+    <div class="mytopbar">
+        <span class="topbar-username">
+            {{ user.first_name }} {{ user.last_name }}
+        </span>
+        <span class="topbar-item-right">
+            <button type="button" class="fas fa-caret-down fa-lg" data-toggle="dropdown"></button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="upload">Upload</a>
+                <a class="dropdown-item" href="myposts">My Posts</a>
+                <a class="dropdown-item" href="logout">Sign Out</a>
+            </div>
+        </span>
 
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href ="upload">Upload</a>
-        <a href="myposts">My posts</a>
-        <a href="logout">Logout</a>
-    </div>
-    <div style="float: left;">
-    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Options</span>
-    </div>
-    <div class="container mycontainer">
-        <form action="searchPost" method="POST">
-            {% csrf_token %}
-            <input type="text" name="searchKey" placeholder="Search">
-            <input type="submit" value="Go">
-        </form>
+        <span class="topbar-item-right">
+            <form action="searchPost" method="POST">
+                {% csrf_token %}
+                <input type="text" name="searchKey" placeholder="Search">
+                <input type="submit" value="Go">
+            </form>
+        </span>
+
+        <span class="topbar-item-right">
+            <a style="color: white;" href="{% url 'custom_user' %}">Home</a>
+        </span>
+
     </div>
 
     {% if posts %}

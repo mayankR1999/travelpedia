@@ -21,7 +21,7 @@ def register(request):
         match_number = re.search(r"[0-9]", pass1)
         match_uppercase = re.search(r"[A-Z]", pass1)
         match_lowercase = re.search(r"[a-z]", pass1)
-        pass_length = True if len(pass1 >= 8) else False
+        pass_length = True if len(pass1) >= 8 else False
         
         valid = True
 

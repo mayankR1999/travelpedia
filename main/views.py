@@ -39,6 +39,7 @@ def searchPost(request):
     key = request.POST['searchKey'].lower()
     all_posts = Posts.objects.all()
     filtered_posts = [post for post in all_posts if post.place.lower() == key]
+
     context = {
         'posts' : filtered_posts
     }
@@ -57,6 +58,7 @@ def show_my_posts(request):
     all_posts = Posts.objects.all()
     user = request.user
     my_posts = [post for post in all_posts if post.owner == user]
+    
     context = {
         'posts': my_posts
     }
