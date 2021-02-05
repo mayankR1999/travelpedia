@@ -46,7 +46,7 @@ def searchPost(request):
     return render(request, "base.html", context)
 
 
-def likePost(request):
+def likePost(request):      # Use AJAX to give it a better finish
     post = Posts.objects.get(id = request.POST.get('post_id'))
     post.likes.add(request.user)
     post.total_likes = post.count_likes()

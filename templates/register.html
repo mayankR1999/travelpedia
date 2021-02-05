@@ -1,26 +1,33 @@
 {% extends 'basehtmlpage.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="my-form-container">
-        <form action = "register" method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <input type="text" class="form-control my-form" name="user_name" placeholder="Username" required>
-                <input type="text" class="form-control my-form" name="first_name" placeholder="First Name" required>
-                <input type="text" class="form-control my-form" name="last_name" placeholder="Last Name" required>
-                <input type="email" class="form-control my-form" name="email" placeholder="Email address" required>
-                <input type="password" class="form-control my-form" name="pass1" placeholder="Enter password" required>
-                <input type="password" class="form-control my-form" name="pass2" placeholder="Confirm password" required><br>
-                <input class="btn btn-primary" type="submit">
-        </form>
+    <div class="outer-box-registration-page">
+        <img src = "/static/pictures/registration.jpg" width="70%" height="100%"/>
+        <div class="my-form-container">
+            <h1 style="font-family: monospace; margin-bottom:20px;">Sign Up</h1>
+            <form action = "register" method="POST">
+                {% csrf_token %}
+                    <span class="registration-entries">First Name</span>
+                    <input type="text" name="first_name" placeholder="Enter first name" required>
+                    <span class="registration-entries">Last Name</span>
+                    <input type="text" name="last_name" placeholder="Enter last name" required>
+                    <span class="registration-entries">Email</span>
+                    <input type="email" name="email" placeholder="Email address" required>
+                    <span class="registration-entries">Username</span>
+                    <input type="text" name="user_name" placeholder="Username" required>
+                    <span class="registration-entries">Password</span>
+                    <input type="password" name="pass1" placeholder="Enter password" required>
+                    <span class="registration-entries">Repeat Password</span>
+                    <input type="password" name="pass2" placeholder="Confirm password" required><br>
+                    <input class="my-button" type="submit" value="Sign Up">
+                    <a href="{% url 'login' %}">Sign In</a>
+            </form>
+        </div>
+        <div style="text-decoration-color: red;">
+            {% for message in messages %}
+                *{{message}}<br>
+            {% endfor %}
+        </div>
     </div>
-    <div style="text-decoration-color: red;">
-        {% for message in messages %}
-            *{{message}}<br>
-        {% endfor %}
-    </div>
-</div>
-
 
 {% endblock %}

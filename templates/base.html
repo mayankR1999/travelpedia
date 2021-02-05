@@ -5,11 +5,8 @@
 {% if user.is_authenticated %}
     
     <div class="mytopbar">
-        <span class="topbar-username">
-            {{ user.first_name }} {{ user.last_name }}
-        </span>
-        <span class="topbar-item-right">
-            <button type="button" class="fas fa-caret-down fa-lg" data-toggle="dropdown"></button>
+        <span style="margin: 0px 10px; float:left">
+            <button type="button" class="fas fa-caret-square-down" data-toggle="dropdown"></button>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="upload">Upload</a>
                 <a class="dropdown-item" href="myposts">My Posts</a>
@@ -17,11 +14,15 @@
             </div>
         </span>
 
+        <span class="topbar-username">
+            {{ user.first_name }} {{ user.last_name }}
+        </span>
+        
         <span class="topbar-item-right">
-            <form action="searchPost" method="POST">
-                {% csrf_token %}
-                <input type="text" name="searchKey" placeholder="Search">
-                <input type="submit" value="Go">
+            <form class="form-inline" action="searchPost" method="POST">
+                {% csrf_token %}        
+                <input class="form-control mb-2 mr-sm-2" type="text" name="searchKey" placeholder="Search">
+                <input class="btn btn-primary mb-2" style="width: min-content;" type="submit" value="Go">
             </form>
         </span>
 
@@ -36,7 +37,8 @@
 
             <div class="card mycard">
                 <div class="card-header">
-                    {{ post.owner.username }}
+                    {{post.owner.first_name}} {{post.owner.last_name}}
+                    <span style="color: blue;">@{{ post.owner.username }}</span>
                     {% if post.owner == user %}
                         <div style="float: right;">
                             <button type="button" class="fas fa-bars" data-toggle="dropdown"></button>
@@ -45,7 +47,7 @@
                             </div>
                         </div>
                     {% endif %}
-                    <h4>This post is about {{ post.place }}</h4>
+                    <h4>{{ post.place }}</h4>
                 </div>
                 <div class="card-body"><img src="{{post.img.url}}" height="auto" width="100%"></div>
                 <div class="card-footer">
