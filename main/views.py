@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Posts
@@ -46,12 +46,16 @@ def searchPost(request):
     return render(request, "base.html", context)
 
 
-def likePost(request):      # Use AJAX to give it a better finish
-    post = Posts.objects.get(id = request.POST.get('post_id'))
-    post.likes.add(request.user)
+def likePost(request):      # Use AJAX
+    post = Posts.objects.get(id = request.GET['post_id'])
+    user = request.user
+    if user not in post.likes.all():
+        post.likes.add(user)
+    else:
+        post.likes.remove(user)
     post.total_likes = post.count_likes()
     post.save()
-    return HttpResponseRedirect(reverse('custom_user'))
+    return HttpResponse(str(post.total_likes))
 
 
 def show_my_posts(request):
@@ -64,7 +68,7 @@ def show_my_posts(request):
     }
     return render(request, "base.html", context)
 
-def delete_post(request, id):
-    post = Posts.objects.get(id = id)
+def delete_post(request):   # Use AJAX
+    post = Posts.objects.get(id = request.GET['post_id'])
     post.delete()
-    return redirect('../../base')
+    return HttpResponse('')

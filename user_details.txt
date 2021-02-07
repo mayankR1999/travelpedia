@@ -2,7 +2,7 @@ s.no. username : password
 
 1. test : test@travelpedia
 
-2. mayank_boss : Mayank%99
+2. mayank_raj : Mayank%99
 
 3. aryan_nehra : Aryan%99
 
@@ -15,3 +15,5 @@ s.no. username : password
 superuser : password
 
 1. mayank : youknowit
+
+video link : https://youtu.be/13gFXvFzXN4

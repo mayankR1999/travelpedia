@@ -43,7 +43,7 @@
                         <div style="float: right;">
                             <button type="button" class="fas fa-bars" data-toggle="dropdown"></button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{% url 'delete_post' post.id %}">Delete</a>
+                                <a class="dropdown-item" id="delete_post" data-catid="{{ post.id }}"">Delete</a>
                             </div>
                         </div>
                     {% endif %}
@@ -52,11 +52,8 @@
                 <div class="card-body"><img src="{{post.img.url}}" height="auto" width="100%"></div>
                 <div class="card-footer">
                     {{ post.experience }}<br><br>
-                    <form action="{% url 'like_post' %}" method="POST" style="float: left;">
-                        {% csrf_token %}
-                        <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary btn-sm">Like</button>
-                    </form>
-                    <div style="float: left; margin:2px 0px 0px 4px">{{ post.total_likes }}</div>
+                    <button style="float: left;" data-catid="{{ post.id }}" href="#" class="btn btn-primary btn-sm likebutton">Like</button>
+                    <div id="{{post.id}}" style="float: left; margin:2px 0px 0px 4px">{{ post.total_likes }}</div>
                 </div>
             </div>
         
@@ -78,6 +75,40 @@
     function closeNav() {
       document.getElementById("mySidenav").style.width = "0";
     }
+    $('.likebutton').click(function(){
+        var catid;
+        catid = $(this).attr("data-catid");
+        $.ajax(
+        {
+            type:"GET",
+            url: "{% url 'like_post' %}",
+            data:{
+                     post_id: catid
+            },
+            success: function(data)
+            {
+                $( '#'+catid ).text(data);
+            }
+         })
+    });
+
+    $('#delete_post').click(function(){
+        var catid;
+        catid = $(this).attr("data-catid");
+        $.ajax(
+        {
+            type:"GET",
+            url: "{% url 'delete_post' %}",
+            data:{
+                post_id: catid
+            },
+            success: function(data)
+            {
+                location.reload()
+            }
+        }
+        )
+    })
 </script>
 
 {% endblock %}
