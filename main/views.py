@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Posts
@@ -13,8 +13,9 @@ def home(request):
 
 def custom_user(request):
     all_posts = Posts.objects.all()
+    
     context = {
-        'posts': all_posts
+        'posts': process_likes(all_posts)
     }
     return render(request, "base.html", context)
 
@@ -41,7 +42,7 @@ def searchPost(request):
     filtered_posts = [post for post in all_posts if post.place.lower() == key]
 
     context = {
-        'posts' : filtered_posts
+        'posts' : process_likes(filtered_posts)
     }
     return render(request, "base.html", context)
 
@@ -55,7 +56,11 @@ def likePost(request):      # Use AJAX
         post.likes.remove(user)
     post.total_likes = post.count_likes()
     post.save()
-    return HttpResponse(str(post.total_likes))
+
+    context = {
+        'numberoflikes': post.total_likes
+    }
+    return JsonResponse(context)
 
 
 def show_my_posts(request):
@@ -64,7 +69,7 @@ def show_my_posts(request):
     my_posts = [post for post in all_posts if post.owner == user]
     
     context = {
-        'posts': my_posts
+        'posts': process_likes(my_posts)
     }
     return render(request, "base.html", context)
 
@@ -72,3 +77,9 @@ def delete_post(request):   # Use AJAX
     post = Posts.objects.get(id = request.GET['post_id'])
     post.delete()
     return HttpResponse('')
+
+def process_likes(posts):
+    for post in posts:
+        post.liked_by = post.likes.all()
+
+    return posts

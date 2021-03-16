@@ -52,7 +52,11 @@
                 <div class="card-body"><img src="{{post.img.url}}" height="auto" width="100%"></div>
                 <div class="card-footer">
                     {{ post.experience }}<br><br>
-                    <button style="float: left;" data-catid="{{ post.id }}" href="#" class="btn btn-primary btn-sm likebutton">Like</button>
+                    {% if user in post.liked_by %}
+                        <button style="float: left;" id="lb{{post.id}}" data-catid="{{ post.id }}" href="#" class="btn btn-primary btn-sm likebutton">Like</button>
+                    {% else %}
+                        <button style="float: left;" id="lb{{post.id}}" data-catid="{{ post.id }}" href="#" class="btn btn-outline-primary btn-sm likebutton">Like</button>
+                    {% endif %}
                     <div id="{{post.id}}" style="float: left; margin:2px 0px 0px 4px">{{ post.total_likes }}</div>
                 </div>
             </div>
@@ -76,8 +80,16 @@
       document.getElementById("mySidenav").style.width = "0";
     }
     $('.likebutton').click(function(){
-        var catid;
-        catid = $(this).attr("data-catid");
+        var catid = $(this).attr("data-catid");
+        const element = document.querySelector('#lb'+catid);
+        if(element.classList.contains('btn-primary')){
+            element.classList.remove('btn-primary');
+            element.classList.add('btn-outline-primary');
+        }
+        else{
+            element.classList.remove('btn-outline-primary');
+            element.classList.add('btn-primary');
+        }
         $.ajax(
         {
             type:"GET",
@@ -87,7 +99,7 @@
             },
             success: function(data)
             {
-                $( '#'+catid ).text(data);
+                $( '#'+catid ).text(data['numberoflikes']);
             }
          })
     });
