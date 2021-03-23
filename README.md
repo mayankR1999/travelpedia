@@ -1,9 +1,6 @@
 # Travelpedia
 A social media platform for travellers
 
-Youtube link : https://youtu.be/13gFXvFzXN4
- 
-
 Features:
   - User registration.
   
