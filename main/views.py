@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Posts
 from . import forms
+import os
 
 # Create your views here.
 
@@ -73,10 +74,13 @@ def show_my_posts(request):
     }
     return render(request, "base.html", context)
 
+
 def delete_post(request):   # Use AJAX
     post = Posts.objects.get(id = request.GET['post_id'])
+    post.img.delete()
     post.delete()
     return HttpResponse('')
+
 
 def process_likes(posts):
     for post in posts:
