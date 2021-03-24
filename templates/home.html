@@ -2,11 +2,16 @@
 
 {% block content %}
 
-<div class="container mycontainer">    
-    <h1 style="color: blue;">Welcome to Travelpedia!</h1><br><br><br><br>
-    <a class="btn btn-primary link" href = "accounts/login">Login</a><br><br>
-    <a class="btn btn-primary link" href = "accounts/register">Signup</a><br><br><br><br><br>
-    Contact us | About
+<div class="container mycontainer">
+    <h1 style="color: blue; font-family: Lobster; font-size: 60px;">travelpedia</h1><br><br>
+    <a class="btn btn-primary link" href = "accounts/login">Login</a><br><br><br>
+    <h6>Don't have an account? <a href="{% url 'register' %}">Sign Up</a></h6><br>
+    <h6>Contact us | About</h6>
 </div>
+
+<script>
+    document.body.style.backgroundImage = "url('/static/pictures/homepage bg.jpg')";
+    document.body.style.backgroundSize = "100% auto";
+</script>
 
 {% endblock %}
