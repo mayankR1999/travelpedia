@@ -1,16 +1,51 @@
 {% extends 'basehtmlpage.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="my-form-container">
-        <form class="site-form" action="upload" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-group">
-                {{form}}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top my-topbar">
+        <div class="container-fluid">
+            <span class="topbar-username">
+                {{ user.first_name }} {{ user.last_name }}
+            </span>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'custom_user' %}">HOME</a>
+                    </li>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="myposts">MY POSTS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout">SIGN OUT</a>
+                    </li>
+                </ul>
+                <form class="d-flex" action="searchPost" method="POST">
+                    {% csrf_token %}
+                    <input class="form-control me-2" type="text" name="searchKey" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">Go</button>
+                </form>
             </div>
-            <input type="submit">
-        </form>
+        </div>
+    </nav>
+    <br>
+    <div class="wrapper">
+        <div class="container upload-container">
+            <form action="{% url 'post_upload' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <h6>Post is for:</h6>
+                    <input type="text" class="form-control" name="place" placeholder="Place" required>
+                </div>
+                <div class="form-group">
+                    <h6>Share experience:</h6>
+                    <textarea class="form-control" name="exp" rows="4" cols="fit" placeholder="Experience" required></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="file" class="form-control-file" name="image" accept="image/*" value="Choose Image" required>
+                </div>
+                <input type="submit" class="btn btn-primary link" value="Upload">
+            </form>
+        </div>
     </div>
-</div>
 
 {% endblock %}

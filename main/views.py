@@ -3,7 +3,6 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Posts
-from . import forms
 import os
 
 # Create your views here.
@@ -23,18 +22,15 @@ def custom_user(request):
 
 def post_upload(request):
     if request.method == "POST":
-        form = forms.CreatePost(request.POST, request.FILES)
-        if form.is_valid():
-            instance = form.save(commit = False)
-            instance.owner = request.user
-            instance.save()
-            return redirect('../../accounts/base/')
+        place = request.POST['place']
+        description = request.POST['exp']
+        img = request.POST['image']
+        new_post = Posts(place = place, experience = description, img = img)
+        new_post.save()
+        return redirect('../../accounts/base/')
     else:
-        form = forms.CreatePost()
-        context = {
-            'form':form
-        }
-        return render(request, "upload.html", context)
+        
+        return render(request, "upload.html")
 
 
 def searchPost(request):
