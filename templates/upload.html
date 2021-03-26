@@ -48,6 +48,10 @@
         </div>
         <div class="image_preview" id="imagePreview">
             <img src="" alt="Image Preview" class="image_preview__image">
+            <span class="default_content">
+                <span class="icon"><i class="fa fa-cloud-upload-alt"></i></span>
+                <span class="default_text"><h6>No file chosen, yet!</h6></span>
+            </span>
         </div>
     </div>
 
@@ -55,6 +59,7 @@
         const inpFile = document.getElementById("inpImage");
         const previewContainer = document.getElementById("imagePreview");
         const previewImage = document.querySelector(".image_preview__image");
+        const defaultContent = document.querySelector(".default_content")
 
         inpFile.addEventListener("change", function(){
             const file = this.files[0];
@@ -63,6 +68,7 @@
                 const reader = new FileReader();
 
                 previewImage.style.display = "block";
+                defaultContent.style.display = "None";
 
                 reader.addEventListener("load", function(){
                     previewImage.setAttribute("src", this.result);

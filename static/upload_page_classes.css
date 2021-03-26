@@ -6,7 +6,7 @@
 
 .image_preview{
     margin: 0px 20px;
-    box-shadow: 0px 2px 6px;
+    border: dashed;
     border-radius: 10px;
     max-height: inherit;
     width: -webkit-fill-available;
@@ -20,4 +20,14 @@
     display: None;
     height: 100%;
     width: auto;
+}
+
+.wrapper .icon{
+    font-size: 150px;
+    color: #9658fe;
+}
+
+.wrapper .default_text{
+    color: #5B5B7B;
+    text-align: center;
 }
