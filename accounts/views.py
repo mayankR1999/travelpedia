@@ -10,12 +10,12 @@ def register(request):
     if request.method == "POST":
 
         # unpack dictionary of input
-        first_name = request.POST["first_name"]
-        last_name = request.POST["last_name"]
+        first_name, last_name = request.POST["first_name"], request.POST["last_name"]
+        first_name = first_name[0].upper() + first_name[1:]
+        last_name = last_name[0].upper() + last_name[1:]
         user_name = request.POST["user_name"]
         email = request.POST["email"]
-        pass1 = request.POST["pass1"]
-        pass2 = request.POST["pass2"]
+        pass1, pass2 = request.POST["pass1"], request.POST["pass2"]
         
         match_special_char = re.search(r"[^A-Za-z0-9]", pass1)
         match_number = re.search(r"[0-9]", pass1)
