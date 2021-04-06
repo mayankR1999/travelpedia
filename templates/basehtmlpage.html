@@ -26,13 +26,37 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
     <!-- Google font lobster -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster|Permanent Marker">
 
     <title>Document</title>
 </head>
-<body>
+<body id="stop-scrolling">
+    
+    <div class="preload_wrapper">
+        <div class="preload_center">
+            <div class="wave1">
+            </div>
+            <br>
+            <h5>Loading...</h5>
+        </div>
+    </div>
+
     {% block content %}
 
     {% endblock %}
 </body>
+
+<script>
+    function preloaderFadeOutInit(){
+        $('.preload_wrapper').fadeOut('slow');
+        $('body').attr('id','');
+        }
+    // Window load function
+    jQuery(window).on('load', function () {
+        (function ($) {
+            preloaderFadeOutInit();
+        })(jQuery);
+    });
+</script>
+
 </html>
