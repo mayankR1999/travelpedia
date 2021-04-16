@@ -7,17 +7,13 @@ import os
 
 # Create your views here.
 
-def home(request):
-    return render(request, "home.html")
-
-
-def custom_user(request):
+def userFeed(request):
     all_posts = Posts.objects.all()
     
     context = {
         'posts': process_likes(all_posts)
     }
-    return render(request, "base.html", context)
+    return render(request, "user-feed.html", context)
 
 
 def post_upload(request):
@@ -41,7 +37,7 @@ def searchPost(request):
     context = {
         'posts' : process_likes(filtered_posts)
     }
-    return render(request, "base.html", context)
+    return render(request, "user-feed.html", context)
 
 
 def likePost(request):      # Use AJAX
@@ -68,7 +64,7 @@ def show_my_posts(request):
     context = {
         'posts': process_likes(my_posts)
     }
-    return render(request, "base.html", context)
+    return render(request, "user-feed.html", context)
 
 
 def delete_post(request):   # Use AJAX

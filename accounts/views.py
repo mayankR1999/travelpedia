@@ -6,6 +6,11 @@ from django.urls import reverse
 import re
 
 # Create your views here.
+
+def home(request):
+    return render(request, "index.html")
+
+
 def register(request):
     if request.method == "POST":
 
@@ -60,7 +65,7 @@ def login(request):
         user = auth.authenticate(username = username, password = pass_word)
         if user:
             auth.login(request, user)
-            return redirect('base/')
+            return redirect('../user')
         else:
             messages.info(request, "Username or password didn't match") # pass message
             return HttpResponseRedirect(reverse(login))
