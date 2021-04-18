@@ -68,8 +68,10 @@
     {% endif %}
 
 {% else %}
-    <h2>You are required to sign in for viewing this page.</h2>
-    <a href = "{% url 'login' %}">login</a>
+    <div class="container" style="text-align: center;">
+        <h2>You are required to sign in for viewing this page.</h2>
+        <a href = "{% url 'login' %}">Sign In</a>
+    </div>
 {% endif %}
 
 <script>
