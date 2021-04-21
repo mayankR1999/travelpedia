@@ -72,6 +72,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'travelpedia.wsgi.application'
 
 
+# Caches
+# https://docs.djangoproject.com/en/3.2/topics/cache
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+        'TIMEOUT': 1200,
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000
+        }
+    }
+}
+
+
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
