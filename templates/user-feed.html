@@ -6,39 +6,7 @@
 
     {% include 'navbar.html' %}
 
-    {% if posts %}
-        {% for post in posts %}
-
-            <div class="card mycard">
-                <div class="card-header">
-                    {{post.owner.first_name}} {{post.owner.last_name}}
-                    <span style="color: blue;">@{{ post.owner.username }}</span>
-                    {% if post.owner == user %}
-                        <div style="float: right;">
-                            <button type="button" class="fas fa-bars" data-toggle="dropdown"></button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" id="delete_post" data-catid="{{ post.id }}"">Delete</a>
-                            </div>
-                        </div>
-                    {% endif %}
-                    <h4>{{ post.place }}</h4>
-                </div>
-                <div class="card-body"><img src="{{post.img.url}}" height="auto" width="100%"></div>
-                <div class="card-footer">
-                    {{ post.experience }}<br><br>
-                    {% if user in post.liked_by %}
-                        <button style="float: left;" id="lb{{post.id}}" data-catid="{{ post.id }}" href="#" class="btn btn-primary btn-sm likebutton">Like</button>
-                    {% else %}
-                        <button style="float: left;" id="lb{{post.id}}" data-catid="{{ post.id }}" href="#" class="btn btn-outline-primary btn-sm likebutton">Like</button>
-                    {% endif %}
-                    <div id="{{post.id}}" style="float: left; margin:2px 0px 0px 4px">{{ post.total_likes }}</div>
-                </div>
-            </div>
-        
-        {% endfor %}
-    {% else %}
-        <h4 style="text-align: center;">No matched searches! Try something different.</h4>
-    {% endif %}
+    {% include 'posts-scrolling-layout.html' %}
 
 {% else %}
     <div class="container" style="text-align: center;">
@@ -46,57 +14,5 @@
         <a href = "{% url 'login' %}">Sign In</a>
     </div>
 {% endif %}
-
-<script>
-    function openNav() {
-      document.getElementById("mySidenav").style.width = "250px";
-    }
-    
-    function closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
-    }
-    $('.likebutton').click(function(){
-        var catid = $(this).attr("data-catid");
-        const element = document.querySelector('#lb'+catid);
-        if(element.classList.contains('btn-primary')){
-            element.classList.remove('btn-primary');
-            element.classList.add('btn-outline-primary');
-        }
-        else{
-            element.classList.remove('btn-outline-primary');
-            element.classList.add('btn-primary');
-        }
-        $.ajax(
-        {
-            type:"GET",
-            url: "{% url 'like_post' %}",
-            data:{
-                     post_id: catid
-            },
-            success: function(data)
-            {
-                $( '#'+catid ).text(data['numberoflikes']);
-            }
-         })
-    });
-
-    $('#delete_post').click(function(){
-        var catid;
-        catid = $(this).attr("data-catid");
-        $.ajax(
-        {
-            type:"GET",
-            url: "{% url 'delete_post' %}",
-            data:{
-                post_id: catid
-            },
-            success: function(data)
-            {
-                location.reload()
-            }
-        }
-        )
-    })
-</script>
 
 {% endblock %}
