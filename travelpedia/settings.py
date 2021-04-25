@@ -93,7 +93,7 @@ CACHES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'travelpedia',
+        'NAME': 'travelpediadb',
         'USER': 'postgres',
         'PASSWORD': 'frands',
         'HOST': 'localhost'

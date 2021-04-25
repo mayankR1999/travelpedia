@@ -1,0 +1,29 @@
+{% extends 'basehtmlpage.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+    {% include 'navbar.html' %}
+    <!--   Tell something about yourself, are you a mountain or beach person,
+    places on your bucket list, places you have visited -->
+    <div class="profile-wrapper">
+        {{ info.display_picture }}
+        <br>
+        {{ info.user_description }}
+        <br>
+        Followers:
+        {% for follower in info.followers %}
+            {{ follower.username }}
+    </div>
+    
+    {% include 'posts-scrolling-layout.html' %}
+
+{% else %}
+    <div class="container" style="text-align: center;">
+        <h2>You are required to sign in for viewing this page.</h2>
+        <a href = "{% url 'login' %}">Sign In</a>
+    </div>
+
+{% endif %}
+
+{% endblock %}
