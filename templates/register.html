@@ -22,11 +22,12 @@
                     <input class="my-button" type="submit" value="Sign Up">
                     <a href="{% url 'login' %}">Sign In</a>
             </form>
-        </div>
-        <div style="text-decoration-color: red;">
-            {% for message in messages %}
-                *{{message}}<br>
-            {% endfor %}
+        
+            <div style="text-decoration-color: red;">
+                {% for message in messages %}
+                    <h6>*{{message}}</h6>
+                {% endfor %}
+            </div>
         </div>
     </div>
 

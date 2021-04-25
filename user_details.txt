@@ -1,6 +1,6 @@
 s.no. username : password
 
-1. test : test@travelpedia
+1. test : Test@acc1
 
 2. mayank_raj : Mayank%99
 

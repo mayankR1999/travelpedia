@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.urls import reverse
-from .models import Posts
+from .models import Posts, UserDetails
 import os
 
 # Create your views here.
@@ -56,15 +56,22 @@ def likePost(request):      # Use AJAX
     return JsonResponse(context)
 
 
-def show_my_posts(request):
-    all_posts = Posts.objects.all()
-    user = request.user
-    my_posts = [post for post in all_posts if post.owner == user]
-    
+def show_user_profile(request, id):
+    user = User.objects.get(id = id)
+    user_posts = Posts.objects.filter(owner = user)
+    user_details = UserDetails.objects.get(pk = user)
+
     context = {
-        'posts': process_likes(my_posts)
+        'posts': process_likes(user_posts),
+        'info': {
+            'dp': user_details.display_picture,
+            'user_description': user_details.user_description,
+            'followers': user_details.followers.all(),
+            'following': user_details.following.all()
+        }
     }
-    return render(request, "user-feed.html", context)
+    
+    return render(request, "user-profile.html", context)
 
 
 def delete_post(request):   # Use AJAX

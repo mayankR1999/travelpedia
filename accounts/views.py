@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.urls import reverse
+from main.models import UserDetails
 import re
 
 # Create your views here.
@@ -50,6 +51,10 @@ def register(request):
             user = User.objects.create_user(username = user_name, email = email, password = pass1
             ,first_name = first_name, last_name = last_name)
             user.save()
+            
+            user_details = UserDetails(user = user)
+            user_details.save()
+
             return redirect('/')
         else:
             return HttpResponseRedirect(reverse('register'))

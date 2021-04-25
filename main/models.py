@@ -17,7 +17,7 @@ class Posts(models.Model):
 
 class UserDetails(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    diplay_picture = models.ImageField(upload_to='pictures', default='../static/pictures/avatardefault.png')
+    display_picture = models.ImageField(upload_to='pictures', default='../static/pictures/avatardefault.png')
     user_description = models.CharField(max_length=250, null=True)
     followers = models.ManyToManyField(User, related_name='user_followers')
     following = models.ManyToManyField(User, related_name='user_following')
