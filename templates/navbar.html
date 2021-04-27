@@ -9,7 +9,7 @@
                     <a class="nav-link" aria-current="page" href="{% url 'user_feed' %}">HOME</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="upload">UPLOAD</a>
+                    <a class="nav-link" href="{% url 'post_upload' %}">UPLOAD</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'show_user_profile' user.id %}">MY PROFILE</a>

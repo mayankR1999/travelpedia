@@ -64,6 +64,7 @@ def show_user_profile(request, id):
     context = {
         'posts': process_likes(user_posts),
         'info': {
+            'user': user_details.user,
             'dp': user_details.display_picture,
             'user_description': user_details.user_description,
             'followers': user_details.followers.all(),

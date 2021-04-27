@@ -4,19 +4,42 @@
 {% if user.is_authenticated %}
 
     {% include 'navbar.html' %}
-    <!--   Tell something about yourself, are you a mountain or beach person,
-    places on your bucket list, places you have visited -->
+    
     <div class="profile-wrapper">
-        DP:
-        <img src="{{info.dp.url}}" height="auto" width="100%">
-        DESC:
-        <br>
-        {{ info.user_description }}
-        <br>
-        Followers:
-        {% for follower in info.followers %}
-            {{ follower.username }}
-        {% endfor %}
+        <div class="dp-wrapper">
+            <button class="btn btn-primary" href="#" id="edit-dp-button">Edit</button>
+            <div class="edit-dp-div">
+                <div>
+                    <input style="display: none;" type="file" id="add-new-dp-file">
+                    <i class="fas fa-plus" id="add-new-dp-action"></i>
+                    <h6>New</h6>
+                </div>
+                <div>
+                    <i class="fas fa-times" id="remove-dp" data-catid="{{info.user}}"></i>
+                    <h6>Del</h6>
+                </div>
+            </div>
+            <div class="dp-contain-box">
+                <img id="display-picture" src="{{info.dp.url}}" height="200px" width="200px">
+            </div>
+        </div>
+
+        <div class="description-wrapper">
+            {% if info.user == user %}
+                <div class="edit-bio">
+                    <i class="fas fa-pencil-alt"></i>
+                </div>
+            {% endif %}
+            <div class="description-text">
+                {% if info.user_description %}
+                    {{ info.user_description }}
+                {% elif info.user == user %}
+                    Loves mountains? Or are you a beach person?<br>
+                    What's on your bucket list?<br>
+                    Tell people about yourself here!
+                {% endif %}
+            </div>
+        </div>
     </div>
     
     {% include 'posts-scrolling-layout.html' %}
@@ -28,5 +51,12 @@
     </div>
 
 {% endif %}
+
+<script>
+    $("#edit-dp-button").click(function(){
+        $("#edit-dp-button").hide();
+        $(".edit-dp-div").show();
+    })
+</script>
 
 {% endblock %}

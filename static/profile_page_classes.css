@@ -1,0 +1,54 @@
+.profile-wrapper{
+    display: flex;
+    border: solid black;
+}
+
+.dp-wrapper{
+    display: flex;
+    height: fit-content;
+    width: fit-content;
+}
+
+.dp-contain-box{
+    float: left;
+    width: 200px;
+    height: 200px;
+    border-radius: 200px;
+    margin: 25px;
+}
+
+.edit-dp-div{
+    display: none;
+    padding-top: 80px;
+    padding-left: 5px;
+}
+
+.edit-dp-div i{
+    font-size: 20px;
+}
+
+.edit-dp-div i:hover{
+    font-size: 20px;
+    color: blue;
+}
+
+.description-wrapper{
+    margin-left: 30px;
+    padding-top: 50px;
+    align-items: center;
+}
+
+.description-wrapper .edit-bio{
+    color: brown;
+    width: 100%;
+}
+
+.edit-bio i:hover{
+    font-size: 20px;
+}
+
+.description-wrapper .description-text{
+    font-family: cursive;
+    width: 100%;
+}
+
