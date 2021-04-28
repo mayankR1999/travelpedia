@@ -114,3 +114,14 @@ def remove_dp(request):
     user_details.save()
 
     return HttpResponse()
+
+
+def change_bio(request):
+    bio = request.POST['text']
+    user = request.user
+    user_details = UserDetails.objects.get(user = user)
+
+    user_details.user_description = bio
+    user_details.save()
+
+    return HttpResponse()

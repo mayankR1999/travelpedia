@@ -31,10 +31,17 @@
         <div class="description-wrapper">
             {% if info.user == user %}
                 <div class="edit-bio">
-                    <i class="fas fa-pencil-alt"></i>
+                    <i class="fas fa-pencil-alt" id="change-bio-action"></i>
+                </div>
+                <div class="edit-bio-container">
+                    <div>
+                        <textarea name="bio" id="edit-bio-textarea" cols="50" rows="3">{{ info.user_description }}</textarea>
+                        {% csrf_token %}
+                    </div>
+                    <button class="btn btn-primary" id="edit-bio-submit-btn">Submit</button>
                 </div>
             {% endif %}
-            <div class="description-text">
+            <div class="description-text" id="description-view">
                 {% if info.user_description %}
                     {{ info.user_description }}
                 {% elif info.user == user %}
@@ -79,6 +86,30 @@
             data: {},
             success: function(response){
                 profile_pic.setAttribute("src", '../../static/pictures/avatardefault.png')
+            }
+        })
+    })
+
+    $("#change-bio-action").click(function(){
+        $(".edit-bio-container").show();
+        $("#description-view").hide();
+    })
+
+    $("#edit-bio-submit-btn").click(function(){
+        const textarea = document.getElementById("edit-bio-textarea");
+        const bio = textarea.value;
+
+        $.ajax({
+            type : 'POST',
+            url : '{% url "change_bio" %}',
+            data : {
+                text : bio,
+                csrfmiddlewaretoken : '{{ csrf_token }}'
+            },
+            success: function(response){
+                $("#description-view").text(bio);
+                $(".edit-bio-container").hide();
+                $("#description-view").show();
             }
         })
     })

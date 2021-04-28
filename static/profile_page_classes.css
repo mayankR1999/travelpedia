@@ -52,3 +52,10 @@
     width: 100%;
 }
 
+textarea{
+    border-radius: 5px;
+}
+
+.edit-bio-container{
+    display: none;
+}
