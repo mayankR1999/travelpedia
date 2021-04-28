@@ -7,5 +7,6 @@ urlpatterns = [
     path('searchPost', views.searchPost, name = 'searchPost'),
     path('like', views.likePost, name = 'like_post'),
     path('profile/<int:id>', views.show_user_profile, name = 'show_user_profile'),
+    path('profile/changeDP', views.change_dp, name = 'change_dp'),
     path('deletePost', views.delete_post, name = "delete_post"),
 ]

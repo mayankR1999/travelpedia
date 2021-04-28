@@ -20,7 +20,7 @@ def post_upload(request):
     if request.method == "POST":
         place = request.POST['place']
         description = request.POST['exp']
-        img = request.POST['image']
+        img = request.FILES['image']
         new_post = Posts(place = place, experience = description, img = img)
         new_post.save()
         return redirect('../../accounts/base/')
@@ -87,3 +87,16 @@ def process_likes(posts):
         post.liked_by = post.likes.all()
 
     return posts
+
+
+def change_dp(request):
+    newDP = request.FILES['pic']
+    user = request.user
+    user_details = UserDetails.objects.get(user = user)
+    
+    user_details.display_picture = newDP
+
+    user_details.save()
+
+    url = '../profile/{}'.format(user.id)
+    return HttpResponseRedirect(url)

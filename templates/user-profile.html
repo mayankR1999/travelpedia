@@ -10,12 +10,16 @@
             <button class="btn btn-primary" href="#" id="edit-dp-button">Edit</button>
             <div class="edit-dp-div">
                 <div>
-                    <input style="display: none;" type="file" id="add-new-dp-file">
+                    <form style="display: none;" action="{% url 'change_dp' %}" enctype="multipart/form-data" method="POST" id="dp-form">
+                        {% csrf_token %}
+                        <input type="file" id="dp-input-file" name="pic" accept="image/*" required>
+                        <input type="submit" id="dp-form-submit" class="btn btn-primary">
+                    </form>
                     <i class="fas fa-plus" id="add-new-dp-action"></i>
                     <h6>New</h6>
                 </div>
                 <div>
-                    <i class="fas fa-times" id="remove-dp" data-catid="{{info.user}}"></i>
+                    <i class="fas fa-times" id="remove-dp" data-catid="{{info.user.id}}"></i>
                     <h6>Del</h6>
                 </div>
             </div>
@@ -57,6 +61,15 @@
         $("#edit-dp-button").hide();
         $(".edit-dp-div").show();
     })
+
+    $("#add-new-dp-action").click(function(){
+        document.getElementById("dp-input-file").click();
+    })
+
+    $("#dp-input-file").on("change", function(){
+        document.getElementById("dp-form-submit").click();
+    })
+
 </script>
 
 {% endblock %}
