@@ -70,6 +70,19 @@
         document.getElementById("dp-form-submit").click();
     })
 
+    $('#remove-dp').click(function(){
+        const profile_pic = document.querySelector('#display-picture');
+
+        $.ajax({
+            type: 'GET',
+            url: '{% url "remove_dp" %}',
+            data: {},
+            success: function(response){
+                profile_pic.setAttribute("src", '../../static/pictures/avatardefault.png')
+            }
+        })
+    })
+
 </script>
 
 {% endblock %}

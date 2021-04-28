@@ -16,4 +16,8 @@ superuser : password
 
 1. mayank : youknowit
 
+default user:
+
+1. default : IaMd4lt#0c$
+
 video link : https://youtu.be/13gFXvFzXN4

@@ -94,9 +94,23 @@ def change_dp(request):
     user = request.user
     user_details = UserDetails.objects.get(user = user)
     
+    if "avatardefault" not in user_details.display_picture.url:
+        user_details.display_picture.delete()
     user_details.display_picture = newDP
-
     user_details.save()
 
     url = '../profile/{}'.format(user.id)
     return HttpResponseRedirect(url)
+
+
+def remove_dp(request):
+    user = request.user
+    user_details = UserDetails.objects.get(user = user)
+    default_user_details = UserDetails.objects.get(user__username = 'default')
+
+    if "avatardefault" not in user_details.display_picture.url:
+        user_details.display_picture.delete()
+        user_details.display_picture = default_user_details.display_picture
+    user_details.save()
+
+    return HttpResponse()
