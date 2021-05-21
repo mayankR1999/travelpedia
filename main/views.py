@@ -23,9 +23,8 @@ def post_upload(request):
         img = request.FILES['image']
         new_post = Posts(place = place, experience = description, img = img)
         new_post.save()
-        return redirect('../../accounts/base/')
+        return redirect('../user')
     else:
-        
         return render(request, "upload.html")
 
 

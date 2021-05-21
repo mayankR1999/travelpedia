@@ -10,8 +10,6 @@ s.no. username : password
 
 5. i_am_iron_man : 1$Robertdj
 
-6. bombay_baba : 11Pesu_bhai
-
 superuser : password
 
 1. mayank : youknowit
