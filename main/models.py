@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import time
 
 # Create your models here.
 
@@ -10,9 +11,13 @@ class Posts(models.Model):
     owner = models.ForeignKey(User, on_delete = models.CASCADE)
     likes = models.ManyToManyField(User, related_name = 'user_post_likes')
     total_likes = models.IntegerField(default = 0)
+    timestamp = models.CharField(max_length = 25)
 
     def count_likes(self):
         return self.likes.count()
+
+    def create_timestamp(self):
+        self.timestamp = str(time.time())
 
 
 class UserDetails(models.Model):

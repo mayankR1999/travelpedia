@@ -21,8 +21,11 @@ def post_upload(request):
         place = request.POST['place']
         description = request.POST['exp']
         img = request.FILES['image']
+
         new_post = Posts(place = place, experience = description, img = img)
+        new_post.create_timestamp()
         new_post.save()
+        
         return redirect('../user')
     else:
         return render(request, "upload.html")
