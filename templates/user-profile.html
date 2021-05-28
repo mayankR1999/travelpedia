@@ -5,55 +5,70 @@
 
     {% include 'navbar.html' %}
     
-    <div class="profile-wrapper">
-        <div class="dp-wrapper">
-            <button class="btn btn-primary" href="#" id="edit-dp-button">Edit</button>
-            <div class="edit-dp-div">
-                <div>
-                    <form style="display: none;" action="{% url 'change_dp' %}" enctype="multipart/form-data" method="POST" id="dp-form">
-                        {% csrf_token %}
-                        <input type="file" id="dp-input-file" name="pic" accept="image/*" required>
-                        <input type="submit" id="dp-form-submit" class="btn btn-primary">
-                    </form>
-                    <i class="fas fa-plus" id="add-new-dp-action"></i>
-                    <h6>New</h6>
-                </div>
-                <div>
-                    <i class="fas fa-times" id="remove-dp" data-catid="{{info.user.id}}"></i>
-                    <h6>Del</h6>
-                </div>
-            </div>
-            <div class="dp-contain-box">
-                <img id="display-picture" src="{{info.dp.url}}" height="200px" width="200px">
-            </div>
-        </div>
-
-        <div class="description-wrapper">
-            {% if info.user == user %}
-                <div class="edit-bio">
-                    <i class="fas fa-pencil-alt" id="change-bio-action"></i>
-                </div>
-                <div class="edit-bio-container">
+    <div style="width: 70%; float:left;">
+        <div class="profile-wrapper">
+            <div class="dp-wrapper">
+                <button class="btn btn-primary" href="#" id="edit-dp-button">Edit</button>
+                <div class="edit-dp-div">
                     <div>
-                        <textarea name="bio" id="edit-bio-textarea" cols="50" rows="3">{{ info.user_description }}</textarea>
-                        {% csrf_token %}
+                        <form style="display: none;" action="{% url 'change_dp' %}" enctype="multipart/form-data" method="POST" id="dp-form">
+                            {% csrf_token %}
+                            <input type="file" id="dp-input-file" name="pic" accept="image/*" required>
+                            <input type="submit" id="dp-form-submit" class="btn btn-primary">
+                        </form>
+                        <i class="fas fa-plus" id="add-new-dp-action"></i>
+                        <h6>New</h6>
                     </div>
-                    <button class="btn btn-primary" id="edit-bio-submit-btn">Submit</button>
+                    <div>
+                        <i class="fas fa-times" id="remove-dp" data-catid="{{info.user.id}}"></i>
+                        <h6>Del</h6>
+                    </div>
                 </div>
-            {% endif %}
-            <div class="description-text" id="description-view">
-                {% if info.user_description %}
-                    {{ info.user_description }}
-                {% elif info.user == user %}
-                    Loves mountains? Or are you a beach person?<br>
-                    What's on your bucket list?<br>
-                    Tell people about yourself here!
+                <div class="dp-contain-box">
+                    <img id="display-picture" src="{{info.dp.url}}" height="200px" width="200px">
+                </div>
+            </div>
+            
+            <div class="description-wrapper">
+                {% if info.user == user %}
+                    <div class="edit-bio">
+                        <i class="fas fa-pencil-alt" id="change-bio-action"></i>
+                    </div>
+                    <div class="edit-bio-container">
+                        <div>
+                            <textarea name="bio" id="edit-bio-textarea" cols="50" rows="3">{{ info.user_description }}</textarea>
+                            {% csrf_token %}
+                        </div>
+                        <button class="btn btn-primary" id="edit-bio-submit-btn">Submit</button>
+                    </div>
                 {% endif %}
+                <div class="description-text" id="description-view">
+                    {% if info.user_description %}
+                        {{ info.user_description }}
+                    {% elif info.user == user %}
+                        Loves mountains? Or are you a beach person?<br>
+                        What's on your bucket list?<br>
+                        Tell people about yourself here!
+                    {% endif %}
+                </div>
             </div>
         </div>
+        
+        {% include 'posts-scrolling-layout.html' %}
     </div>
     
-    {% include 'posts-scrolling-layout.html' %}
+    <div style="width: 30%; float: right;">
+        <div class="show-follower-following-nav">
+            <button class="custom-nav-button-active" id="follower-button">Followers</button>
+            <button class="custom-nav-button-inactive" id="following-button">Following</button>
+        </div>
+        <div class="followers-list" id="follower-list">
+            Followers
+        </div>
+        <div class="following-list" id="following-list">
+            People whom this account follows!
+        </div>
+    </div>
 
 {% else %}
     <div class="container" style="text-align: center;">
@@ -112,6 +127,38 @@
                 $("#description-view").show();
             }
         })
+    })
+
+    $('#follower-button').click(function(){
+        const follower_button = document.querySelector("#follower-button");
+
+        if (follower_button.classList.contains("custom-nav-button-inactive")){
+            const following_button = document.querySelector("#following-button");
+
+            follower_button.classList.remove("custom-nav-button-inactive");
+            follower_button.classList.add("custom-nav-button-active");
+            following_button.classList.remove("custom-nav-button-active");
+            following_button.classList.add("custom-nav-button-inactive");
+
+            $("#following-list").hide();
+            $("#follower-list").show();
+        }
+    })
+
+    $('#following-button').click(function(){
+        const following_button = document.querySelector("#following-button");
+
+        if (following_button.classList.contains("custom-nav-button-inactive")){
+            const follower_button = document.querySelector("#follower-button");
+
+            following_button.classList.remove("custom-nav-button-inactive");
+            following_button.classList.add("custom-nav-button-active");
+            follower_button.classList.remove("custom-nav-button-active");
+            follower_button.classList.add("custom-nav-button-inactive");
+
+            $("#follower-list").hide();
+            $("#following-list").show();
+        }
     })
 
 </script>

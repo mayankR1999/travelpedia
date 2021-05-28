@@ -1,6 +1,7 @@
 .profile-wrapper{
     display: flex;
-    border: solid black;
+    border-style: inset;
+    border-width: 2px 0px;
 }
 
 .dp-wrapper{
@@ -58,4 +59,38 @@ textarea{
 
 .edit-bio-container{
     display: none;
+}
+
+
+.custom-nav-button-active{
+    width: 49.8%; height: 35px;
+    float: left;
+    background: white;
+    margin: 1px .2% 1px 0px;
+    border-width: 1.5px 1.5px 0px 1.5px;
+    border-radius: 5px 5px 0px 0px;
+}
+.custom-nav-button-active:focus{outline: 0;}
+
+.custom-nav-button-inactive{
+    width: 49.8%; height: 35px;
+    float: left;
+    background: white;
+    margin: 1px .2% 1px 0px;
+    border-width: 1.5px;
+    border-radius: 5px 5px 0px 0px;
+}
+.custom-nav-button-inactive:focus{outline: 0;}
+
+.followers-list{
+    border-width: 0px 2px;
+    height: 517px; width: 100%;
+    overflow-y: auto;
+}
+
+.following-list{
+    display: none;
+    border-width: 0px 2px;
+    height: 517px; width: 100%;
+    overflow-y: auto;
 }
