@@ -28,32 +28,18 @@ div input{
   width: 45%;
   font-family: monospace;
   color:cyan;
-  border: none;
+  border: none; border-radius: 100px;
   padding: 5px;
-  margin-top: 40px;
+  margin-top: 20px;
   margin-right: 50px;
 }
-
 .my-button:hover{
-  background-color: blue;
-  width: 45%;
-  font-family: monospace;
-  color:cyan;
-  border: none;
-  padding: 5px;
-  margin-top: 40px;
-  margin-right: 50px;
   box-shadow: 0px 0px 4px blue;
+  outline: 0;
 }
-
 .my-button:active{
-  background-color: mediumblue;
-  width: 45%;
-  font-family: monospace;
-  color:cyan;
-  padding: 5px;
-  margin-top: 40px;
-  margin-right: 50px;
+  background-color: darkorchid;
+  outline: 0;
 }
 
 span.registration-entries{
@@ -223,3 +209,22 @@ span.registration-entries{
 }
 
 /*--------------------------------   End of Preloader Class    -----------------------------*/
+
+/*--------------------------------     Styling Scroll bar      -----------------------------*/
+
+body::-webkit-scrollbar {
+  width: 10px;               /* width of the entire scrollbar */
+  height: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: lightskyblue;        /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: darkorchid;    /* color of the scroll thumb */
+  border-radius: 10px;       /* roundness of the scroll thumb */
+  border: 1px solid lightskyblue;  /* creates padding around scroll thumb */
+}
+
+/*--------------------------------   End of Styling Scroll bar      -----------------------------*/
