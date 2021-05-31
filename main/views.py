@@ -23,7 +23,7 @@ def post_upload(request):
         description = request.POST['exp']
         img = request.FILES['image']
 
-        new_post = Posts(place = place, experience = description, img = img)
+        new_post = Posts(place = place, experience = description, img = img, owner = request.user)
         new_post.create_timestamp()
         new_post.save()
         
