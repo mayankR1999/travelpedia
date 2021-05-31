@@ -6,9 +6,11 @@ s.no. username : password
 
 3. aryan_nehra : Aryan%99
 
-4. m.s.dhoni : 7#Dhoni#7
+4. m.s.dhoni : 7#captain#7
 
 5. i_am_iron_man : 1$Robertdj
+
+6. doge_hue_hue : 34%iamdog$$
 
 superuser : password
 

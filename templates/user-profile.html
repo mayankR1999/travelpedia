@@ -6,7 +6,11 @@
     {% include 'navbar.html' %}
     
     <div style="width: 70%; float:left;">
+        
         <div class="profile-wrapper">
+            <!------------------------------------------------------------------------------------>
+            <!---------------Start of area for profile pic display and edit button---------------->
+            <!------------------------------------------------------------------------------------>
             <div class="dp-wrapper">
                 <button class="btn btn-primary" href="#" id="edit-dp-button">Edit</button>
                 <div class="edit-dp-div">
@@ -28,7 +32,13 @@
                     <img id="display-picture" src="{{info.dp.url}}" height="200px" width="200px">
                 </div>
             </div>
+            <!------------------------------------------------------------------------------------>
+            <!------------------End of area for profile pic display and edit button--------------->
+            <!------------------------------------------------------------------------------------>
             
+            <!------------------------------------------------------------------------------------>
+            <!-----------------Start of area for editing and showing bio of user------------------>
+            <!------------------------------------------------------------------------------------>
             <div class="description-wrapper">
                 {% if info.user == user %}
                     <div class="edit-bio">
@@ -52,23 +62,50 @@
                     {% endif %}
                 </div>
             </div>
+            <!------------------------------------------------------------------------------------>
+            <!------------------End of area for editing and showing bio of user------------------->
+            <!------------------------------------------------------------------------------------>
         </div>
         
         {% include 'posts-scrolling-layout.html' %}
     </div>
     
+    <!------------------------------------------------------------------------------------>
+    <!-----------Start of area for showing followers and following of the user------------>
+    <!------------------------------------------------------------------------------------>
     <div style="width: 30%; float: right;">
         <div class="show-follower-following-nav">
             <button class="custom-nav-button-active" id="follower-button">Followers</button>
             <button class="custom-nav-button-inactive" id="following-button">Following</button>
         </div>
+        <!-----------------------Followers list-------------------------->
         <div class="followers-list" id="follower-list">
-            Followers
+            {% for user, avatar in info.followers %}
+                <div class="my-connection-card">
+                    <img src="{{avatar.url}}" height="50px" width="50px">
+                    <div style="padding: 0px 40px 0px 15px; overflow:hidden">
+                        <div class="user-name">{{user.username}}</div>
+                        <div class="title-name">{{user.first_name}} {{user.last_name}}</div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
+        <!-----------------------Following list-------------------------->
         <div class="following-list" id="following-list">
-            People whom this account follows!
+            {% for user, avatar in info.following %}
+                <div class="my-connection-card">
+                    <img src="{{avatar.url}}" height="50px" width="50px">
+                    <div style="padding: 0px 40px 0px 15px;">
+                        <div class="user-name">{{user.username}}</div>
+                        <div class="title-name">{{user.first_name}} {{user.last_name}}</div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
+    <!------------------------------------------------------------------------------------>
+    <!---------------------End of followers and following area---------------------------->
+    <!------------------------------------------------------------------------------------>
 
 {% else %}
     <div class="container" style="text-align: center;">

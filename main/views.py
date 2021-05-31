@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Posts, UserDetails
+from .functions import getOverviewDetails
 import os
 
 # Create your views here.
@@ -69,8 +70,8 @@ def show_user_profile(request, id):
             'user': user_details.user,
             'dp': user_details.display_picture,
             'user_description': user_details.user_description,
-            'followers': user_details.followers.all(),
-            'following': user_details.following.all()
+            'followers': getOverviewDetails(user_details.followers.all()),
+            'following': getOverviewDetails(user_details.following.all())
         }
     }
     
