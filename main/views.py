@@ -3,16 +3,18 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Posts, UserDetails
-from .functions import getOverviewDetails
+from .functions import *
 import os
 
 # Create your views here.
 
 def userFeed(request):
     all_posts = Posts.objects.all()
+    user_details = UserDetails.objects.get(pk = request.user)
     
     context = {
-        'posts': process_likes(all_posts)
+        'posts': process_likes_and_avatars(all_posts),
+        'avatar': user_details.display_picture
     }
     return render(request, "user-feed.html", context)
 
@@ -29,7 +31,7 @@ def post_upload(request):
         
         return redirect('../user')
     else:
-        return render(request, "upload.html")
+        return render(request, "upload.html", {'avatar': UserDetails.objects.get(pk = request.user).display_picture})
 
 
 def searchPost(request):
@@ -38,7 +40,7 @@ def searchPost(request):
     filtered_posts = [post for post in all_posts if post.place.lower() == key]
 
     context = {
-        'posts' : process_likes(filtered_posts)
+        'posts' : process_likes_and_avatars(filtered_posts)
     }
     return render(request, "user-feed.html", context)
 
@@ -65,14 +67,15 @@ def show_user_profile(request, id):
     user_details = UserDetails.objects.get(pk = user)
 
     context = {
-        'posts': process_likes(user_posts),
+        'posts': process_likes_and_avatars(user_posts),
         'info': {
             'user': user_details.user,
             'dp': user_details.display_picture,
             'user_description': user_details.user_description,
             'followers': getOverviewDetails(user_details.followers.all()),
             'following': getOverviewDetails(user_details.following.all())
-        }
+        },
+        'avatar': user_details.display_picture
     }
     
     return render(request, "user-profile.html", context)
@@ -83,13 +86,6 @@ def delete_post(request):   # Use AJAX
     post.img.delete()
     post.delete()
     return HttpResponse('')
-
-
-def process_likes(posts):
-    for post in posts:
-        post.liked_by = post.likes.all()
-
-    return posts
 
 
 def change_dp(request):

@@ -82,7 +82,7 @@ span.registration-entries{
 .topbar-username{
   font-weight: bold;
   font-size: 140%;
-  margin-bottom: 3px;
+  margin: 0px 0px 3px 10px;
 }
 
 /*--------------------------------   Preloader Class    -----------------------------*/

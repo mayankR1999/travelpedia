@@ -1,8 +1,8 @@
 {% if posts %}
     {% for post in posts %}
-
         <div class="card mycard">
             <div class="card-header">
+                <img src="{{post.owner.avatar.url}}" style="border-radius: 20px;" height="40px" width="40px">
                 {{post.owner.first_name}} {{post.owner.last_name}}
                 <span style="color: blue;">@{{ post.owner.username }}</span>
                 {% if post.owner == user %}

@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="dp-contain-box">
-                    <img id="display-picture" src="{{info.dp.url}}" height="200px" width="200px">
+                    <img id="display-picture" style="border-radius: 100px;" src="{{info.dp.url}}" height="200px" width="200px">
                 </div>
             </div>
             <!------------------------------------------------------------------------------------>
@@ -94,7 +94,7 @@
         <div class="following-list" id="following-list">
             {% for user, avatar in info.following %}
                 <div class="my-connection-card">
-                    <img src="{{avatar.url}}" height="50px" width="50px">
+                    <img src="{{avatar.url}}" style="border-radius: 25px;" height="50px" width="50px">
                     <div style="padding: 0px 40px 0px 15px;">
                         <div class="user-name">{{user.username}}</div>
                         <div class="title-name">{{user.first_name}} {{user.last_name}}</div>
