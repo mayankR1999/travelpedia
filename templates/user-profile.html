@@ -12,6 +12,7 @@
             <!---------------Start of area for profile pic display and edit button---------------->
             <!------------------------------------------------------------------------------------>
             <div class="dp-wrapper">
+                {% if info.user == user %}
                 <button class="btn btn-primary" href="#" id="edit-dp-button">Edit</button>
                 <div class="edit-dp-div">
                     <div>
@@ -28,6 +29,7 @@
                         <h6>Del</h6>
                     </div>
                 </div>
+                {% endif %}
                 <div class="dp-contain-box">
                     <img id="display-picture" style="border-radius: 100px;" src="{{info.dp.url}}" height="200px" width="200px">
                 </div>
