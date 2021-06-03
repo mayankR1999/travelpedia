@@ -6,7 +6,7 @@ s.no. username : password
 
 3. aryan_nehra : Aryan%99
 
-4. m.s.dhoni : 7#captain#7
+4. m.s.dhoni : 7#Captain#7
 
 5. i_am_iron_man : 1$Robertdj
 

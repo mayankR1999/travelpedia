@@ -72,17 +72,54 @@ span.registration-entries{
   box-shadow: 0px 2px 6px;
 }
 
-.mycard{
-  margin-left: 20%;
-  margin-right: 20%;
-  margin-top: 30px;
+.custom-card{
+  margin: 10px 25%;
   position: inherit !important;
+}
+
+.custom-card-header{
+  border: solid 1.5px darkgray; border-radius: 10px 10px 0px 0px;
+  border-bottom: none;
+  padding: 10px 15px 0px 15px;
+}
+
+.custom-card.body{
+  border-style: solid;
+}
+
+.custom-card-footer{
+  border: solid 1.5px darkgray; border-radius: 0px 0px 10px 10px;
+  border-top: none;
+  display: flow-root;
+  padding: 5px 15px 15px 15px;
 }
 
 .topbar-username{
   font-weight: bold;
   font-size: 140%;
   margin: 0px 0px 3px 10px;
+}
+
+.place-heading{
+  font-family: ui-monospace; font-size: x-large;
+  padding: 4px 4px 0px 4px;
+  border-top: solid 1px gray;
+  margin-top: 5px;
+}
+
+.dropdown-bars{
+  display: flex;
+  height: 30px; width: 30px;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+}
+.dropdown-bars:hover{
+  background-color: lightgrey;
+}
+.dropdown-bars:active{
+  background-color: lightgrey;
+  border: solid 1.5px;
 }
 
 /*--------------------------------   Preloader Class    -----------------------------*/

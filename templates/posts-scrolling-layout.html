@@ -1,22 +1,22 @@
 {% if posts %}
     {% for post in posts %}
-        <div class="card mycard">
-            <div class="card-header">
+        <div class="custom-card">
+            <div class="custom-card-header">
                 <img src="{{post.owner.avatar.url}}" style="border-radius: 20px;" height="40px" width="40px">
                 {{post.owner.first_name}} {{post.owner.last_name}}
-                <span style="color: blue;">@{{ post.owner.username }}</span>
+                <a href="{% url 'show_user_profile' post.owner.id %}">@{{ post.owner.username }}</a>
                 {% if post.owner == user %}
                     <div style="float: right;">
-                        <button type="button" class="fas fa-bars" data-toggle="dropdown"></button>
+                        <div class="dropdown-bars" data-toggle="dropdown"><i class="fas fa-bars fa-lg" ></i></div>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" id="delete_post" data-catid="{{ post.id }}"">Delete</a>
                         </div>
                     </div>
                 {% endif %}
-                <h4>{{ post.place }}</h4>
+                <div class="place-heading">{{ post.place }}</div>
             </div>
-            <div class="card-body"><img src="{{post.img.url}}" height="auto" width="100%"></div>
-            <div class="card-footer">
+            <div class="custom-card-body"><img src="{{post.img.url}}" height="auto" width="100%"></div>
+            <div class="custom-card-footer">
                 {{ post.experience }}<br><br>
                 {% if user in post.liked_by %}
                     <button style="float: left;" id="lb{{post.id}}" data-catid="{{ post.id }}" href="#" class="btn btn-primary btn-sm likebutton">Like</button>
