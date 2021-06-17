@@ -14,6 +14,10 @@ def userFeed(request):
     
     context = {
         'posts': process_likes_and_avatars(all_posts),
+        'info': {
+            'followers': user_details.followers.all(),
+            'following': user_details.following.all()
+        },
         'avatar': user_details.display_picture
     }
     return render(request, "user-feed.html", context)
@@ -123,4 +127,18 @@ def change_bio(request):
     user_details.user_description = bio
     user_details.save()
 
+    return HttpResponse()
+
+
+def follow_toggle(request):
+    user1, user2 = request.user, request.GET['user_id']
+    request_type = request.GET['request_type']
+    user1_details = UserDetails.objects.get(pk = user1)
+    user2_details = UserDetails.objects.get(pk = user2)
+    if request_type == 'follow':
+        user1_details.following.add(user2)
+        user2_details.followers.add(user1)
+    else:
+        user1_details.following.remove(user2)
+        user2_details.followers.remove(user1)
     return HttpResponse()

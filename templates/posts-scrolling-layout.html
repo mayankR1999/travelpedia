@@ -1,6 +1,7 @@
 {% if posts %}
     {% for post in posts %}
         <div class="custom-card">
+            <!------------------------------------Card Header Start---------------------------------------->
             <div class="custom-card-header">
                 <img src="{{post.owner.avatar.url}}" style="border-radius: 20px;" height="40px" width="40px">
                 {{post.owner.first_name}} {{post.owner.last_name}}
@@ -12,10 +13,27 @@
                             <a class="dropdown-item" id="delete_post" data-catid="{{ post.id }}"">Delete</a>
                         </div>
                     </div>
+                {% else %}
+
+                    <!------------------Refer this for future use------------>
+                    {% if post.owner in info.following %}
+                    <style>.custom-follow-button{display: none;}</style>
+                    {% else %}
+                    <style>.custom-following-show{display: none;}</style>
+                    {% endif %}
+                    <!------------------------------------------------------->
+
+                    <button class="custom-follow-button" data-catid="{{post.owner.id}}" id="follow-button">Follow</button>
+                    <button class="custom-following-show" data-catid="{{post.owner.id}}" id="following-show-cum-unfollow">Following</button>
+
                 {% endif %}
                 <div class="place-heading">{{ post.place }}</div>
             </div>
+            <!-------------------------------------Card Header End----------------------------------------->
+
             <div class="custom-card-body"><img src="{{post.img.url}}" height="auto" width="100%"></div>
+
+            <!------------------------------------Card Footer Start---------------------------------------->
             <div class="custom-card-footer">
                 {{ post.experience }}<br><br>
                 {% if user in post.liked_by %}
@@ -25,6 +43,7 @@
                 {% endif %}
                 <div id="{{post.id}}" style="float: left; margin:2px 0px 0px 4px">{{ post.total_likes }}</div>
             </div>
+            <!-------------------------------------Card Footer End----------------------------------------->
         </div>
         
     {% endfor %}
@@ -49,7 +68,7 @@
             type:"GET",
             url: "{% url 'like_post' %}",
             data:{
-                     post_id: catid
+                post_id: catid
             },
             success: function(data)
             {
@@ -59,8 +78,7 @@
     });
 
     $('#delete_post').click(function(){
-        var catid;
-        catid = $(this).attr("data-catid");
+        var catid = $(this).attr("data-catid");
         $.ajax(
         {
             type:"GET",
@@ -72,7 +90,40 @@
             {
                 location.reload()
             }
-        }
-        )
+        })
+    })
+
+    $('#follow-button').click(function(){
+        var catid = $(this).attr("data-catid");
+        $.ajax(
+        {
+            type:"GET",
+            url: "{% url 'follow_toggle_request' %}",
+            data:{
+                user_id: catid,
+                request_type: 'follow'
+            },
+            success: function(data){
+                $('#follow-button').hide();
+                $('#following-show-cum-unfollow').show();
+            }
+        })
+    })
+
+    $('#following-show-cum-unfollow').click(function(){
+        var catid = $(this).attr("data-catid");
+        $.ajax(
+        {
+            type: "GET",
+            url: "{% url 'follow_toggle_request' %}",
+            data:{
+                user_id: catid,
+                request_type: 'unfollow'
+            },
+            success: function(data){
+                $('#following-show-cum-unfollow').hide();
+                $('#follow-button').show();
+            }
+        })
     })
 </script>
