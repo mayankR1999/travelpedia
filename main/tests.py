@@ -32,14 +32,38 @@ class TestURLs(TestCase):
         
         self.assertEqual(response.func, views.likePost)
     
-    def test_my_post_url(self):
-        url = reverse('show_my_posts')
+    def test_user_profile_url(self):
+        url = reverse('show_user_profile', args=[1])
         response = resolve(url)
         
-        self.assertEqual(response.func, views.show_my_posts)
+        self.assertEqual(response.func, views.show_user_profile)
+
+    def test_change_dp_url(self):
+        url = reverse('change_dp')
+        response = resolve(url)
+        
+        self.assertEqual(response.func, views.change_dp)
+
+    def test_remove_dp_url(self):
+        url = reverse('remove_dp')
+        response = resolve(url)
+        
+        self.assertEqual(response.func, views.remove_dp)
+
+    def test_change_bio_url(self):
+        url = reverse('change_bio')
+        response = resolve(url)
+        
+        self.assertEqual(response.func, views.change_bio)
     
     def test_delete_post_url(self):
         url = reverse('delete_post')
         response = resolve(url)
         
         self.assertEqual(response.func, views.delete_post)
+
+    def test_follow_toggle_url(self):
+        url = reverse('follow_toggle_request')
+        response = resolve(url)
+
+        self.assertEqual(response.func, views.follow_toggle)
