@@ -4,8 +4,11 @@
 {% if user.is_authenticated %}
 
     {% include 'navbar.html' %}
+    <style>
+        body{background: antiquewhite;}
+    </style>
     
-    <div style="width: 70%; float:left;">
+    <div style="width: 60%; float:left; margin: 30px 5% 10px 5%;">
         
         <div class="profile-wrapper">
             <!------------------------------------------------------------------------------------>
@@ -75,7 +78,7 @@
     <!------------------------------------------------------------------------------------>
     <!-----------Start of area for showing followers and following of the user------------>
     <!------------------------------------------------------------------------------------>
-    <div style="width: 30%; float: right;">
+    <div style="width: 25%; float: right; margin: 30px 2.5% 10px 2.5%;">
         <div class="show-follower-following-nav">
             <button class="custom-nav-button-active" id="follower-button">Followers</button>
             <button class="custom-nav-button-inactive" id="following-button">Following</button>

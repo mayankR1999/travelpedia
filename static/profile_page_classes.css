@@ -1,8 +1,10 @@
 .profile-wrapper{
     display: flex;
-    border-style: inset;
-    border-width: 2px 0px;
     padding-right: 20px;
+    background: white;
+    margin-bottom: 50px;
+    border-radius: 10px;
+    border: solid darkgray; border-width: 1.5px;
 }
 
 .dp-wrapper{
@@ -65,38 +67,38 @@ textarea{
 
 .show-follower-following-nav{
     display: flex;
-    padding: 1px 0px 0px 1px;
-    border-top: 2px inset;
 }
 
 .custom-nav-button-active{
-    width: 49.8%; height: 35px;
+    width: 50%; height: 35px;
     background: white;
-    margin: 1px .2% 1px 0px;
-    border-width: 1.5px 1.5px 0px 1.5px;
-    border-radius: 5px 5px 0px 0px;
+    border: solid darkgray; border-width: 1.5px 1.5px 0px 1.5px;
+    border-radius: 10px 10px 0px 0px;
 }
 .custom-nav-button-active:focus{outline: 0;}
 
 .custom-nav-button-inactive{
-    width: 49.8%; height: 35px;
+    width: 50%; height: 35px;
     background: white;
-    margin: 1px .2% 1px 0px;
-    border-width: 1.5px;
-    border-radius: 5px 5px 0px 0px;
+    border: solid darkgray; border-width: 1.5px;
+    border-radius: 10px 10px 0px 0px;
 }
 .custom-nav-button-inactive:focus{outline: 0;}
 
 .followers-list{
-    border-width: 0px 2px; border-style: ridge;
-    height: 517px; width: 100%; margin-right: 1px;
+    border: solid darkgray; border-width: 0px 1.5px 1.5px 1.5px;
+    border-radius: 0px 0px 10px 10px;
+    height: 450px; width: 100%;
+    background: white;
     overflow-y: auto;
 }
 
 .following-list{
     display: none;
-    border-width: 0px 2px; border-style: ridge;
-    height: 517px; width: 100%; margin-right: 1px;
+    border: solid darkgray; border-width: 0px 1.5px 1.5px 1.5px;
+    border-radius: 0px 0px 10px 10px;
+    height: 450px; width: 100%;
+    background: white;
     overflow-y: auto;
 }
 

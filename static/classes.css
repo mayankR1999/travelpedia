@@ -75,6 +75,8 @@ span.registration-entries{
 .custom-card{
   margin: 10px 25%;
   position: inherit !important;
+  background: white;
+  border-radius: 10px;
 }
 
 .custom-card-header{
