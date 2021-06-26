@@ -89,18 +89,22 @@
     <!------------------------------------------------------------------------------------>
     <div style="width: 25%; float: right; margin: 30px 2.5% 10px 2.5%;">
         <div class="show-follower-following-nav">
-            <button class="custom-nav-button-active" id="follower-button">Followers</button>
-            <button class="custom-nav-button-inactive" id="following-button">Following</button>
+            <button class="custom-nav-button-active" id="followers-nav-button">Followers</button>
+            <button class="custom-nav-button-inactive" id="followings-nav-button">Following</button>
         </div>
         <!-----------------------Followers list-------------------------->
         <div class="followers-list" id="follower-list">
             {% for user, avatar in info.followers %}
                 <div class="my-connection-card">
                     <img src="{{avatar.url}}" height="50px" width="50px">
-                    <div style="padding: 0px 40px 0px 15px; overflow:hidden">
+                    <div style="padding: 0px 40px 0px 15px; overflow:hidden; width: 60%">
                         <div class="user-name">{{user.username}}</div>
                         <div class="title-name">{{user.first_name}} {{user.last_name}}</div>
                     </div>
+
+                    <button class="custom-follow-button" data-catid="{{user.id}}" id="follow{{user.id}}">Follow</button>
+                    <button class="show-following-or-not" style="display: none;" data-catid="{{user.id}}" id="unfollow{{user.id}}">Following</button>
+
                 </div>
             {% endfor %}
         </div>
@@ -180,11 +184,11 @@
         })
     })
 
-    $('#follower-button').click(function(){
-        const follower_button = document.querySelector("#follower-button");
+    $('#followers-nav-button').click(function(){
+        const follower_button = document.querySelector("#followers-nav-button");
 
         if (follower_button.classList.contains("custom-nav-button-inactive")){
-            const following_button = document.querySelector("#following-button");
+            const following_button = document.querySelector("#followings-nav-button");
 
             follower_button.classList.remove("custom-nav-button-inactive");
             follower_button.classList.add("custom-nav-button-active");
@@ -196,11 +200,11 @@
         }
     })
 
-    $('#following-button').click(function(){
-        const following_button = document.querySelector("#following-button");
+    $('#followings-nav-button').click(function(){
+        const following_button = document.querySelector("#followings-nav-button");
 
         if (following_button.classList.contains("custom-nav-button-inactive")){
-            const follower_button = document.querySelector("#follower-button");
+            const follower_button = document.querySelector("#followers-nav-button");
 
             following_button.classList.remove("custom-nav-button-inactive");
             following_button.classList.add("custom-nav-button-active");
@@ -212,6 +216,39 @@
         }
     })
 
+    $('.custom-follow-button').click(function(){
+        var catid = $(this).attr("data-catid");
+        $.ajax(
+        {
+            type:"GET",
+            url: "{% url 'follow_toggle_request' %}",
+            data:{
+                user_id: catid,
+                request_type: 'follow'
+            },
+            success: function(data){
+                $('#follow' + catid).hide();
+                $('#unfollow' + catid).show();
+            }
+        })
+    })
+    
+    $('.show-following-or-not').click(function(){
+        var catid = $(this).attr("data-catid");
+        $.ajax(
+        {
+            type: "GET",
+            url: "{% url 'follow_toggle_request' %}",
+            data:{
+                user_id: catid,
+                request_type: 'unfollow'
+            },
+            success: function(data){
+                $('#unfollow' + catid).hide();
+                $('#follow' + catid).show();
+            }
+        })
+    })
 </script>
 
 {% endblock %}

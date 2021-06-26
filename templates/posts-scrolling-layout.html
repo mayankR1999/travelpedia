@@ -24,12 +24,12 @@
                     {% if post.owner in info.following %}
                     <style>.custom-follow-button{display: none;}</style>
                     {% else %}
-                    <style>.custom-following-show{display: none;}</style>
+                    <style>.show-following-or-not{display: none;}</style>
                     {% endif %}
                     <!------------------------------------------------------->
 
                     <button class="custom-follow-button" data-catid="{{post.owner.id}}" id="follow{{post.owner.id}}">Follow</button>
-                    <button class="custom-following-show" data-catid="{{post.owner.id}}" id="unfollow{{post.owner.id}}">Following</button>
+                    <button class="show-following-or-not" data-catid="{{post.owner.id}}" id="unfollow{{post.owner.id}}">Following</button>
 
                 {% endif %}
                 <div class="place-heading">{{ post.place }}</div>
@@ -114,8 +114,8 @@
             }
         })
     })
-
-    $('.custom-following-show').click(function(){
+    
+    $('.show-following-or-not').click(function(){
         var catid = $(this).attr("data-catid");
         $.ajax(
         {
