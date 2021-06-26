@@ -24,11 +24,17 @@
                             <input type="file" id="dp-input-file" name="pic" accept="image/*" required>
                             <input type="submit" id="dp-form-submit" class="btn btn-primary">
                         </form>
+                        {% load cache %}
+                        {% cache 3600 add_icon %}
                         <i class="fas fa-plus" id="add-new-dp-action"></i>
+                        {% endcache %}
                         <h6>New</h6>
                     </div>
                     <div>
+                        {% load cache %}
+                        {% cache 3600 remove_icon %}
                         <i class="fas fa-times" id="remove-dp" data-catid="{{info.user.id}}"></i>
+                        {% endcache %}
                         <h6>Del</h6>
                     </div>
                 </div>
@@ -47,7 +53,10 @@
             <div class="description-wrapper">
                 {% if info.user == user %}
                     <div class="edit-bio">
+                        {% load cache %}
+                        {% cache 3600 pen_icon %}
                         <i class="fas fa-pencil-alt" id="change-bio-action"></i>
+                        {% endcache %}
                     </div>
                     <div class="edit-bio-container">
                         <div>

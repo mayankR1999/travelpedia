@@ -8,7 +8,12 @@
                 <a href="{% url 'show_user_profile' post.owner.id %}">@{{ post.owner.username }}</a>
                 {% if post.owner == user %}
                     <div style="float: right;">
-                        <div class="dropdown-bars" data-toggle="dropdown"><i class="fas fa-bars fa-lg" ></i></div>
+                        <div class="dropdown-bars" data-toggle="dropdown">
+                            {% load cache %}
+                            {% cache 3600 horizontal_bars_icon %}
+                            <i class="fas fa-bars fa-lg" ></i>
+                            {% endcache %}
+                        </div>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" id="delete_post" data-catid="{{ post.id }}"">Delete</a>
                         </div>
