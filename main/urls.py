@@ -11,5 +11,6 @@ urlpatterns = [
     path('profile/removeDP', views.remove_dp, name = 'remove_dp'),
     path('profile/changeBio', views.change_bio, name = 'change_bio'),
     path('deletePost', views.delete_post, name = "delete_post"),
-    path('follow_toggle', views.follow_toggle, name = "follow_toggle_request")
+    path('follow_toggle', views.follow_toggle, name = "follow_toggle_request"),
+    path('remove_follower', views.remove_follower, name = "remove_follower")
 ]

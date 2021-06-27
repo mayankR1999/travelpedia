@@ -95,28 +95,33 @@
         <!-----------------------Followers list-------------------------->
         <div class="followers-list" id="follower-list">
             {% for user, avatar in info.followers %}
-                <div class="my-connection-card">
+                <div class="my-connection-card" id="follower-card{{user.id}}">
                     <img src="{{avatar.url}}" height="50px" width="50px">
                     <div style="padding: 0px 40px 0px 15px; overflow:hidden; width: 60%">
-                        <div class="user-name">{{user.username}}</div>
+                        <div class="user-name">
+                            {{user.username}}
+                            <!-- Work on it {% if user not in info.following %}
+                            <button class="custom-follow-button" data-catid="{{user.id}}" id="follow{{user.id}}">Follow</button>
+                            {% endif %} -->
+                        </div>
                         <div class="title-name">{{user.first_name}} {{user.last_name}}</div>
                     </div>
 
-                    <button class="custom-follow-button" data-catid="{{user.id}}" id="follow{{user.id}}">Follow</button>
-                    <button class="show-following-or-not" style="display: none;" data-catid="{{user.id}}" id="unfollow{{user.id}}">Following</button>
-
+                    <button class="remove-follower-button" data-catid="{{user.id}}" id="remove{{user.id}}">Remove</button>
                 </div>
             {% endfor %}
         </div>
         <!-----------------------Following list-------------------------->
         <div class="following-list" id="following-list">
             {% for user, avatar in info.following %}
-                <div class="my-connection-card">
+                <div class="my-connection-card" id="following-card{{user.id}}">
                     <img src="{{avatar.url}}" style="border-radius: 25px;" height="50px" width="50px">
-                    <div style="padding: 0px 40px 0px 15px;">
+                    <div style="padding: 0px 40px 0px 15px; overflow:hidden; width: 60%">
                         <div class="user-name">{{user.username}}</div>
                         <div class="title-name">{{user.first_name}} {{user.last_name}}</div>
                     </div>
+
+                    <button class="show-following-or-not" data-catid="{{user.id}}" id="unfollow{{user.id}}">Following</button>
                 </div>
             {% endfor %}
         </div>
@@ -218,8 +223,7 @@
 
     $('.custom-follow-button').click(function(){
         var catid = $(this).attr("data-catid");
-        $.ajax(
-        {
+        $.ajax({
             type:"GET",
             url: "{% url 'follow_toggle_request' %}",
             data:{
@@ -228,15 +232,13 @@
             },
             success: function(data){
                 $('#follow' + catid).hide();
-                $('#unfollow' + catid).show();
             }
         })
     })
     
     $('.show-following-or-not').click(function(){
         var catid = $(this).attr("data-catid");
-        $.ajax(
-        {
+        $.ajax({
             type: "GET",
             url: "{% url 'follow_toggle_request' %}",
             data:{
@@ -244,10 +246,27 @@
                 request_type: 'unfollow'
             },
             success: function(data){
-                $('#unfollow' + catid).hide();
-                $('#follow' + catid).show();
+                $('#following-card' + catid).hide();
             }
         })
+    })
+
+    $('.remove-follower-button').click(function(){
+        var confirmation = confirm('Do you want to remove this follower?')
+        if (confirmation){
+            var catid = $(this).attr("data-catid");
+
+            $.ajax({
+                type: "GET",
+                url: "{% url 'remove_follower' %}",
+                data: {
+                    user_id: catid
+                },
+                success: function(data){
+                    $('#follower-card'+catid).hide();
+                }
+            })
+        }
     })
 </script>
 

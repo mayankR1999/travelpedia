@@ -107,9 +107,20 @@ textarea{
 }
 
 .user-name{
-    font-family: system-ui; font-size: .9em; font-weight: 600; margin-bottom: -3px; padding-top: 3px;
+    font-family: system-ui; font-size: .9em; font-weight: 600;
+    margin-bottom: -3px; padding-top: 5px; display: flex;
 }
 
 .title-name{
     color: darkgrey; font-family: system-ui; font-weight: 400;
+    font-size: .8em;
+}
+
+.remove-follower-button{
+    float: right; background-color: white; outline: 0; border:none;
+    padding-top: 5px; font-weight: 600; color: darkgrey;
+    display: block;
+}
+.remove-follower-button:focus{
+    outline: 0;
 }

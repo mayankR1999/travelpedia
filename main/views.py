@@ -142,3 +142,13 @@ def follow_toggle(request):
         user1_details.following.remove(user2)
         user2_details.followers.remove(user1)
     return HttpResponse()
+
+
+def remove_follower(request):
+    user1, user2 = request.user, request.GET['user_id']
+    user1_details = UserDetails.objects.get(pk = user1)
+    user2_details = UserDetails.objects.get(pk = user2)
+
+    user1_details.followers.remove(user2)
+    user2_details.following.remove(user1)
+    return HttpResponse()
