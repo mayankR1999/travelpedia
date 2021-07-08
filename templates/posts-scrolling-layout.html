@@ -3,7 +3,7 @@
         <div class="custom-card">
             <!------------------------------------Card Header Start---------------------------------------->
             <div class="custom-card-header">
-                <img src="{{post.owner.avatar.url}}" style="border-radius: 20px;" height="40px" width="40px">
+                <img src="{{post.owner.avatar.url}}" alt="Error!" style="border-radius: 20px;" height="40px" width="40px">
                 {{post.owner.first_name}} {{post.owner.last_name}}
                 <a href="{% url 'show_user_profile' post.owner.id %}">@{{ post.owner.username }}</a>
                 {% if post.owner == user %}
@@ -36,7 +36,7 @@
             </div>
             <!-------------------------------------Card Header End----------------------------------------->
 
-            <div class="custom-card-body"><img src="{{post.img.url}}" height="auto" width="100%"></div>
+            <div class="custom-card-body"><img src="{{post.img.url}}" alt="Couldn't load image!" height="auto" width="100%"></div>
 
             <!------------------------------------Card Footer Start---------------------------------------->
             <div class="custom-card-footer">
