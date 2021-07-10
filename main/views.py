@@ -152,3 +152,10 @@ def remove_follower(request):
     user1_details.followers.remove(user2)
     user2_details.following.remove(user1)
     return HttpResponse()
+
+
+def explore(request):
+    if request.method == 'POST':
+        pass
+    else:
+        return render(request, 'explore.html')
