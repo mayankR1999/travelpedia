@@ -4,9 +4,6 @@
 {% if user.is_authenticated %}
 
     {% include 'navbar.html' %}
-    <style>
-        body{background: antiquewhite;}
-    </style>
     
     <div style="width: 60%; float:left; margin: 30px 5% 10px 5%;">
         
@@ -96,7 +93,7 @@
         <div class="followers-list" id="follower-list">
             {% for follower, follower_avatar in info.followers %}
                 <div class="my-connection-card" id="follower-card{{follower.id}}">
-                    <img src="{{follower_avatar.url}}" alt="Error!" height="50px" width="50px">
+                    <img src="{{follower_avatar.url}}" alt="Error!" style="border-radius: 25px;" height="50px" width="50px">
                     <div style="padding: 0px 40px 0px 15px; overflow:hidden; width: 60%">
                         <div class="user-name">
                             {{follower.username}}

@@ -1,7 +1,40 @@
 {% extends 'basehtmlpage.html' %}
 
 {% block content %}
+{% if user.is_authenticated %}
+    <div class="explore-page-headings">Discover People</div>
+    <div class="account-recommend-wrapper">
+        {% for account in accounts %}
+            <div class="account-recommend-box">
+                <img src="{{account.display_picture.url}}" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 35px;" height="70px" width="70px">
+                <div style="font-weight: 650; margin-top:10px; margin-bottom:-3px">{{account.user.username}}</div>
+                <div style="color:darkgrey; font-size:.9em; font-weight: 600; margin-bottom: 10px;">{{account.user.first_name}}</div>
 
-<h1 style="color: blue;">Explore Page</h1>
+                {% if user in account.following %}
+                    <style>.custom-follow-button{display: none;}</style>
+                    {% else %}
+                    <style>.show-following-or-not{display: none;}</style>
+                {% endif %}
+
+                <button class="custom-follow-button">Follow</button>
+                <button class="show-following-or-not">Following</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="explore-page-headings">Explore</div>
+    <div class="explore-post-wrapper">
+        {% for post in posts %}
+            <div class="explore-post-box">
+                <img src="{{post.img.url}}" class="explore-post-image" alt="Couldn't load image!" height="auto" width="auto">
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="container" style="text-align: center;">
+        <h2>You are required to sign in for viewing this page.</h2>
+        <a href = "{% url 'login' %}">Sign In</a>
+    </div>
+{% endif %}
 
 {% endblock %}

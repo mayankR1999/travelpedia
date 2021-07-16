@@ -158,4 +158,9 @@ def explore(request):
     if request.method == 'POST':
         pass
     else:
-        return render(request, 'explore.html')
+        context = {
+            'posts': Posts.objects.all(),
+            'accounts': UserDetails.objects.all()
+        }
+
+        return render(request, 'explore.html', context)

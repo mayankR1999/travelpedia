@@ -1,0 +1,67 @@
+.explore-page-headings{
+    margin-left: 1%;
+    margin-top: 20px;
+    font-weight: 650;
+    color: darkgrey;
+}
+
+.account-recommend-wrapper{
+    display: flex;
+}
+
+.account-recommend-box{
+    height: auto;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    width: 23%;
+    margin: 1%; padding: 15px;
+    background: white;
+    border:1.5px solid rgb(240, 240, 240);
+}
+
+.custom-follow-button{
+    display: block;
+    border: none; border-radius: 3px;
+    color: white;
+    font-weight: 600; font-size: .9em;
+    background-color: rgb(56, 150, 240);
+    padding: 2px 20px 3px 20px;
+}
+.custom-follow-button:hover{
+    outline: 0;
+    background-color: rgb(56, 100, 240);
+}
+.custom-follow-button:active{
+    background-color: rgb(56, 100, 240);
+    box-shadow: blue 0px 0px 3px;
+}
+.custom-follow-button:focus{
+    outline: 0;
+}
+
+.show-following-or-not{
+    display: block;
+    outline: 0; border:none;
+    color: darkgrey;
+    font-weight: 600;
+    background-color: white;
+    padding: 2px 20px 3px 20px;
+}
+.show-following-or-not:focus{
+    outline: 0;
+}
+  
+.explore-post-wrapper{
+    display: flex;
+}
+
+.explore-post-box{
+    height: 275px;
+    width: 23%;
+    margin: 1%;
+    overflow: hidden;
+}
+
+.explore-post-image{
+    height: -webkit-fill-available;
+}
