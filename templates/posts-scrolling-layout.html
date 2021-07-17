@@ -42,9 +42,9 @@
             <div class="custom-card-footer">
                 {{ post.experience }}<br><br>
                 {% if user in post.liked_by %}
-                    <button style="float: left;" id="lb{{post.id}}" data-catid="{{ post.id }}" href="#" class="btn btn-primary btn-sm likebutton">Like</button>
+                    <button class="fa fa-heart likebutton" id="lb{{post.id}}" data-catid="{{ post.id }}" href="#"></button>
                 {% else %}
-                    <button style="float: left;" id="lb{{post.id}}" data-catid="{{ post.id }}" href="#" class="btn btn-outline-primary btn-sm likebutton">Like</button>
+                    <button class="far fa-heart likebutton" id="lb{{post.id}}" data-catid="{{ post.id }}" href="#"></button>
                 {% endif %}
                 <div id="{{post.id}}" style="float: left; margin:2px 0px 0px 4px">{{ post.total_likes }}</div>
             </div>
@@ -60,13 +60,13 @@
     $('.likebutton').click(function(){
         var catid = $(this).attr("data-catid");
         const element = document.querySelector('#lb'+catid);
-        if(element.classList.contains('btn-primary')){
-            element.classList.remove('btn-primary');
-            element.classList.add('btn-outline-primary');
+        if(element.classList.contains('fa')){
+            element.classList.remove('fa');
+            element.classList.add('far');
         }
         else{
-            element.classList.remove('btn-outline-primary');
-            element.classList.add('btn-primary');
+            element.classList.remove('far');
+            element.classList.add('fa');
         }
         $.ajax(
         {

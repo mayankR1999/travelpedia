@@ -124,6 +124,23 @@ span.registration-entries{
   border: solid 1.5px;
 }
 
+.likebutton{
+  float: left;
+  background: white;
+  outline: 0; border:none;
+  color:rgb(56, 150, 240);
+  font-size:1.75em;
+}
+.likebutton:hover{
+  outline: 0;
+}
+.likebutton:active{
+  outline: 0;
+}
+.likebutton:focus{
+  outline: 0;
+}
+
 /*--------------------------------   Preloader Class    -----------------------------*/
 
 .preload_wrapper{
