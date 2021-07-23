@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.urls import reverse
-from .models import Posts, UserDetails
+from .models import Posts, UserDetails, Comment
 from .functions import *
 import os
 
@@ -165,6 +165,17 @@ def explore(request):
 
         return render(request, 'explore.html', context)
 
+
+def add_comment(request):
+    postID = request.POST['postID']
+    comment_text = request.POST['comment_text']
+
+    new_comment = Comment(user = request.user, post = Posts.objects.get(id = postID), 
+                        text = comment_text)
+    new_comment.create_timestamp()
+    new_comment.save()
+
+    return HttpResponse()
 
 def load_comments(request):
     return HttpResponse('')

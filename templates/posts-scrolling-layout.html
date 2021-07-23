@@ -51,7 +51,7 @@
             <!-------------------------------------POST Footer End----------------------------------------->
             
             <!---------------------------------POST Comments Box Start------------------------------------->
-            <div class="comment-box-wrapper">
+            <div class="comment-box-wrapper" id="comment-box-wrapper{{post.id}}">
                 <div class="comments-option-bar">Sort by</div>
                 <div class="comments-layout" id="comments-layout{{post.id}}">
                     <div class="comment">
@@ -68,11 +68,10 @@
                         <i style="margin: 5px 5px 0px 0px;" class="far fa-heart"></i>
                     </div>
                 </div>
-                <form class="add-comment-form">
-                    {% csrf_token %}
-                    <input class="enter-comment-text-bar" type="text" placeholder="Add a comment" name="comment_text" required>
-                    <button class="btn btn-primary" type="submit">Add</button>
-                </form>
+                <div class="add-comment-form">
+                    <input class="enter-comment-text-bar" id="comment{{post.id}}" type="text" placeholder="Add a comment" name="comment_text" required>
+                    <button class="btn btn-primary add-comment-button" data-catid="{{ post.id }}">Add</button>
+                </div>
             </div>
             <!----------------------------------POST Comments Box End-------------------------------------->
         </div>
@@ -159,6 +158,25 @@
             success: function(data){
                 $('#unfollow' + catid).hide();
                 $('#follow' + catid).show();
+            }
+        })
+    })
+
+    $('.add-comment-button').click(function(){
+        var catid = $(this).attr('data-catid');
+        var comment = document.getElementById('comment'+catid);
+        var comment_text = comment.value;
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "add_comment" %}',
+            data: {
+                postID: catid,
+                comment_text: comment_text,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response){
+                comment.value = '';
             }
         })
     })

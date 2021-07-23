@@ -14,5 +14,6 @@ urlpatterns = [
     path('follow_toggle', views.follow_toggle, name = "follow_toggle_request"),
     path('remove_follower', views.remove_follower, name = "remove_follower"),
     path('explore', views.explore, name = "explore"),
-    path('loadComments', views.load_comments, name = "load_comments")
+    path('submitNewComment', views.add_comment, name = "add_comment"),
+    path('loadComments', views.load_comments, name = "load_comments"),
 ]
