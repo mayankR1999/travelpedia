@@ -13,5 +13,6 @@ urlpatterns = [
     path('deletePost', views.delete_post, name = "delete_post"),
     path('follow_toggle', views.follow_toggle, name = "follow_toggle_request"),
     path('remove_follower', views.remove_follower, name = "remove_follower"),
-    path('explore', views.explore, name = "explore")
+    path('explore', views.explore, name = "explore"),
+    path('loadComments', views.load_comments, name = "load_comments")
 ]

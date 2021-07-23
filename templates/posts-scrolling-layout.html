@@ -1,9 +1,9 @@
 {% if posts %}
     {% for post in posts %}
         <div class="custom-card">
-            <!------------------------------------Card Header Start---------------------------------------->
+            <!------------------------------------POST Header Start---------------------------------------->
             <div class="custom-card-header">
-                <img src="{{post.owner.avatar.url}}" alt="Error!" style="border-radius: 20px;" height="40px" width="40px">
+                <img src="{{post.owner.avatar.url}}" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 20px;" height="40px" width="40px">
                 {{post.owner.first_name}} {{post.owner.last_name}}
                 <a href="{% url 'show_user_profile' post.owner.id %}">@{{ post.owner.username }}</a>
                 {% if post.owner == user %}
@@ -19,7 +19,6 @@
                         </div>
                     </div>
                 {% else %}
-
                     <!------------------Refer this for future use------------>
                     {% if post.owner in info.following %}
                     <style>.custom-follow-button{display: none;}</style>
@@ -27,28 +26,55 @@
                     <style>.show-following-or-not{display: none;}</style>
                     {% endif %}
                     <!------------------------------------------------------->
-
                     <button style="float: right;" class="custom-follow-button" data-catid="{{post.owner.id}}" id="follow{{post.owner.id}}">Follow</button>
                     <button style="float: right;" class="show-following-or-not" data-catid="{{post.owner.id}}" id="unfollow{{post.owner.id}}">Following</button>
-
                 {% endif %}
                 <div class="place-heading">{{ post.place }}</div>
             </div>
-            <!-------------------------------------Card Header End----------------------------------------->
+            <!-------------------------------------POST Header End----------------------------------------->
 
             <div class="custom-card-body"><img src="{{post.img.url}}" alt="Couldn't load image!" height="auto" width="100%"></div>
 
-            <!------------------------------------Card Footer Start---------------------------------------->
+            <!-------------------------------------POST Footer Start--------------------------------------->
             <div class="custom-card-footer">
                 {{ post.experience }}<br><br>
-                {% if user in post.liked_by %}
-                    <button class="fa fa-heart likebutton" id="lb{{post.id}}" data-catid="{{ post.id }}" href="#"></button>
-                {% else %}
-                    <button class="far fa-heart likebutton" id="lb{{post.id}}" data-catid="{{ post.id }}" href="#"></button>
-                {% endif %}
-                <div id="{{post.id}}" style="float: left; margin:2px 0px 0px 4px">{{ post.total_likes }}</div>
+                <div style="margin-left: -5px;">
+                    {% if user in post.liked_by %}
+                        <button class="fa fa-heart likebutton" id="lb{{post.id}}" data-catid="{{ post.id }}" href="#"></button>
+                    {% else %}
+                        <button class="far fa-heart likebutton" id="lb{{post.id}}" data-catid="{{ post.id }}" href="#"></button>
+                    {% endif %}
+                    <button class="far fa-comment likebutton" onclick="load_comment(postID = {{post.id}})"></button>
+                </div>
+                <div id="{{post.id}}" style="font-family: Inter; font-weight: 600; margin: 2px 0px 0px 2px;">{{ post.total_likes }} likes</div>
             </div>
-            <!-------------------------------------Card Footer End----------------------------------------->
+            <!-------------------------------------POST Footer End----------------------------------------->
+            
+            <!---------------------------------POST Comments Box Start------------------------------------->
+            <div class="comment-box-wrapper">
+                <div class="comments-option-bar">Sort by</div>
+                <div class="comments-layout" id="comments-layout{{post.id}}">
+                    <div class="comment">
+                        <img src="{{post.owner.avatar.url}}" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 20px; margin-right: 10px" height="40px" width="40px">
+                        <div style="line-height: 120%; margin-right: 20px;">
+                            <span style="font-weight: 650;">{{post.owner.username}}</span>
+                            <span>Beautiful place Beautiful place Beautiful place Beautiful
+                            place Beautiful place Beautiful place Beautiful place Beautiful place</span>
+                            <div class="comment-info">
+                                <span class="comment-time-elapsed">16h</span>
+                                <span class="comment-likes">20 likes</span>
+                            </div>
+                        </div>
+                        <i style="margin: 5px 5px 0px 0px;" class="far fa-heart"></i>
+                    </div>
+                </div>
+                <form class="add-comment-form">
+                    {% csrf_token %}
+                    <input class="enter-comment-text-bar" type="text" placeholder="Add a comment" name="comment_text" required>
+                    <button class="btn btn-primary" type="submit">Add</button>
+                </form>
+            </div>
+            <!----------------------------------POST Comments Box End-------------------------------------->
         </div>
         
     {% endfor %}
@@ -76,8 +102,13 @@
                 post_id: catid
             },
             success: function(data)
-            {
-                $( '#'+catid ).text(data['numberoflikes']);
+            {   
+                if(data['numberoflikes'] == 1){
+                    $( '#'+catid ).text(data['numberoflikes'] + ' like');
+                }
+                else{
+                    $( '#'+catid ).text(data['numberoflikes'] + ' likes');
+                }
             }
          })
     });
@@ -131,4 +162,17 @@
             }
         })
     })
+
+    function load_comment(postID){
+        $.ajax(
+        {
+            type: "GET", 
+            url: "{% url 'load_comments' %}",
+            data: {
+                postID: postID
+            },
+            success: function(data){
+            }
+        })
+    }
 </script>

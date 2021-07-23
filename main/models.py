@@ -32,3 +32,17 @@ class UserDetails(models.Model):
 
     def num_of_following(self):
         return self.following.count()
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Posts, on_delete = models.CASCADE)
+    text = models.CharField(max_length=1000)
+    likes = models.ManyToManyField(User, related_name = 'comment_likes')
+    time_stamp = models.CharField(max_length = 25)
+
+    def count_likes(self):
+        return self.likes.count()
+
+    def create_timestamp(self):
+        self.time_stamp = str(time.time())

@@ -164,3 +164,7 @@ def explore(request):
         }
 
         return render(request, 'explore.html', context)
+
+
+def load_comments(request):
+    return HttpResponse('')
