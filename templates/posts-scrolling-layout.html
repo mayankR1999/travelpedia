@@ -46,7 +46,7 @@
                     {% endif %}
                     <button class="far fa-comment likebutton" onclick="load_comment(postID = {{post.id}})"></button>
                 </div>
-                <div id="{{post.id}}" style="font-family: Inter; font-weight: 600; margin: 2px 0px 0px 2px;">{{ post.total_likes }} likes</div>
+                <div id="{{post.id}}" style="font-family: Inter; font-weight: 600; margin: 5px 0px 0px 2px; color: darkgrey; font-size: .9em;">{{ post.total_likes }} likes <span>&#183;</span> x comments</div>
             </div>
             <!-------------------------------------POST Footer End----------------------------------------->
             
@@ -54,19 +54,6 @@
             <div class="comment-box-wrapper" id="comment-box-wrapper{{post.id}}">
                 <div class="comments-option-bar">Sort by</div>
                 <div class="comments-layout" id="comments-layout{{post.id}}">
-                    <div class="comment">
-                        <img src="{{post.owner.avatar.url}}" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 20px; margin-right: 10px" height="40px" width="40px">
-                        <div style="line-height: 120%; margin-right: 20px;">
-                            <span style="font-weight: 650;">{{post.owner.username}}</span>
-                            <span>Beautiful place Beautiful place Beautiful place Beautiful
-                            place Beautiful place Beautiful place Beautiful place Beautiful place</span>
-                            <div class="comment-info">
-                                <span class="comment-time-elapsed">16h</span>
-                                <span class="comment-likes">20 likes</span>
-                            </div>
-                        </div>
-                        <i style="margin: 5px 5px 0px 0px;" class="far fa-heart"></i>
-                    </div>
                 </div>
                 <div class="add-comment-form">
                     <input class="enter-comment-text-bar" id="comment{{post.id}}" type="text" placeholder="Add a comment" name="comment_text" required>
@@ -177,20 +164,51 @@
             },
             success: function(response){
                 comment.value = '';
+                load_comment(catid);
             }
         })
     })
 
     function load_comment(postID){
-        $.ajax(
-        {
-            type: "GET", 
-            url: "{% url 'load_comments' %}",
-            data: {
-                postID: postID
-            },
-            success: function(data){
-            }
-        })
+        if ($('#comment-box-wrapper'+postID).is(":visible")){
+            $('#comment-box-wrapper'+postID).slideUp();
+        }else{
+            $.ajax(
+            {
+                type: "GET", 
+                url: "{% url 'load_comments' %}",
+                data: {
+                    postID: postID
+                },
+                success: function(data){
+                    var comments = JSON.parse(data);
+                    var new_inner_html = '';
+                    for (var comment in comments){
+                        var comment_likes = '';
+                        if (comments[comment].total_likes == 1){
+                            comment_likes = '1 like';
+                        }else{
+                            comment_likes = comments[comment].total_likes + ' likes';
+                        }
+                        new_inner_html +=
+                        ('<div class="comment">'+
+                            '<img src="' + comments[comment].user_details.avatar_url + '" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 20px; margin-right: 10px" height="40px" width="40px">' +
+                            '<div style="line-height: 120%; margin-right: 20px; width: 100%;">' +
+                                '<span style="font-weight: 650;">' + comments[comment].user.username + ' </span>' +
+                                '<span>' + comments[comment].text + '</span>' + 
+                                '<div class="comment-info">' + 
+                                    '<span class="comment-time-elapsed">' + comments[comment].time_elapsed + '</span>' + 
+                                    '<span class="comment-likes">' + comment_likes + '</span>' +
+                                '</div>' +
+                            '</div>' +
+                            '<i style="margin: 5px 5px 0px 0px;" class="far fa-heart"></i>' +
+                        '</div>');
+                    }
+                    document.getElementById('comments-layout'+postID).innerHTML = new_inner_html;
+                    $('#comment-box-wrapper'+postID).slideDown();
+                    document.getElementById('comment-box-wrapper'+postID).style.display = 'flex';
+                }
+            })
+        }
     }
 </script>

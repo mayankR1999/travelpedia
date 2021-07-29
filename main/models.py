@@ -36,6 +36,7 @@ class UserDetails(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_details = models.ForeignKey(UserDetails, on_delete=models.CASCADE)
     post = models.ForeignKey(Posts, on_delete = models.CASCADE)
     text = models.CharField(max_length=1000)
     likes = models.ManyToManyField(User, related_name = 'comment_likes')
@@ -46,3 +47,36 @@ class Comment(models.Model):
 
     def create_timestamp(self):
         self.time_stamp = str(time.time())
+
+    def time_elapsed(self):
+        curr_time = int(time.time())
+        elapsed_seconds = curr_time-int(float(self.time_stamp))
+
+        minute, hour, day, week = (60), (60*60), (24*60*60), (7*24*60*60)
+
+        if elapsed_seconds//week >= 1:
+            return str(elapsed_seconds//week) + 'w'
+        elif elapsed_seconds//day >= 1:
+            return str(elapsed_seconds//day) + 'd'
+        elif elapsed_seconds//hour >= 1:
+            return str(elapsed_seconds//hour) + 'h' 
+        elif elapsed_seconds//minute >= 1:
+            return str(elapsed_seconds//minute) + 'm'
+        else:
+            return str(elapsed_seconds) + 's'
+
+    def json(self):
+        return {
+            'user': {
+                'username': self.user.username
+            },
+            'post': {
+                'id': self.post.id
+            },
+            'user_details': {
+                'avatar_url': self.user_details.display_picture.url
+            },
+            'text': self.text,
+            'total_likes': self.count_likes(),
+            'time_elapsed': self.time_elapsed()
+        }

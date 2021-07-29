@@ -3,8 +3,9 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.urls import reverse
 from .models import Posts, UserDetails, Comment
+from django.core import serializers
 from .functions import *
-import os
+import os, json
 
 # Create your views here.
 
@@ -171,11 +172,19 @@ def add_comment(request):
     comment_text = request.POST['comment_text']
 
     new_comment = Comment(user = request.user, post = Posts.objects.get(id = postID), 
-                        text = comment_text)
+                        user_details = UserDetails.objects.get(pk = request.user) ,text = comment_text)
     new_comment.create_timestamp()
     new_comment.save()
 
     return HttpResponse()
 
 def load_comments(request):
-    return HttpResponse('')
+    postID = request.GET['postID']
+    comments = Comment.objects.filter(post = postID)
+    for comment in comments:
+        likes = comment.count_likes()
+        comment.total_likes = likes
+
+    data = [comment.json() for comment in comments]
+
+    return HttpResponse(json.dumps(data))

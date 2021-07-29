@@ -145,7 +145,7 @@ span.registration-entries{
 }
 
 .comment-box-wrapper{
-  display: flex;
+  display: none;
   font-family: Inter;
   flex-direction: column;
   padding: 0px 15px 15px 15px;
@@ -157,6 +157,11 @@ span.registration-entries{
 }
 .comments-layout{
   display: block;
+  max-height: 250px;
+  overflow-y: auto;
+}
+.comments-layout::-webkit-scrollbar{
+  width: 3px;
 }
 .comment{
   display: flex;
