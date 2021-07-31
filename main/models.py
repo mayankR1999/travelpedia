@@ -67,6 +67,7 @@ class Comment(models.Model):
 
     def json(self):
         return {
+            'id': self.id,
             'user': {
                 'username': self.user.username
             },
@@ -78,5 +79,6 @@ class Comment(models.Model):
             },
             'text': self.text,
             'total_likes': self.count_likes(),
+            'liked_by': [user.id for user in self.likes.all()],
             'time_elapsed': self.time_elapsed()
         }

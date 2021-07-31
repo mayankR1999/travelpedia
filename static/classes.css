@@ -125,7 +125,7 @@ span.registration-entries{
   border: solid 1.5px;
 }
 
-.likebutton{
+.post-interaction-button{
   float: left;
   background: white;
   width: fit-content;
@@ -134,13 +134,13 @@ span.registration-entries{
   color:rgb(56, 150, 240);
   font-size:1.75em;
 }
-.likebutton:hover{
+.post-interaction-button:hover{
   outline: 0;
 }
-.likebutton:active{
+.post-interaction-button:active{
   outline: 0;
 }
-.likebutton:focus{
+.post-interaction-button:focus{
   outline: 0;
 }
 

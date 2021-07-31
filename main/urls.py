@@ -16,4 +16,5 @@ urlpatterns = [
     path('explore', views.explore, name = "explore"),
     path('submitNewComment', views.add_comment, name = "add_comment"),
     path('loadComments', views.load_comments, name = "load_comments"),
+    path('likeComment', views.like_comment, name = "like_comment"),
 ]

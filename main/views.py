@@ -178,6 +178,7 @@ def add_comment(request):
 
     return HttpResponse()
 
+
 def load_comments(request):
     postID = request.GET['postID']
     comments = Comment.objects.filter(post = postID)
@@ -188,3 +189,22 @@ def load_comments(request):
     data = [comment.json() for comment in comments]
 
     return HttpResponse(json.dumps(data))
+
+
+def like_comment(request):
+    commentID = request.GET['commentID']
+    user = request.user
+    comment = Comment.objects.get(id=commentID)
+
+    context = {}
+    if user not in comment.likes.all():
+        comment.likes.add(user)
+        context['action'] = 'liked'
+    else:
+        comment.likes.remove(user)
+        context['action'] = 'disliked'
+
+    context['total_likes'] = comment.count_likes()
+    comment.save()
+
+    return HttpResponse(json.dumps(context))
