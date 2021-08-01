@@ -14,6 +14,7 @@ def userFeed(request):
     user_details = UserDetails.objects.get(pk = request.user)
     
     context = {
+        'is_profile_page': False,
         'posts': process_likes_and_avatars(all_posts),
         'info': {
             'followers': user_details.followers.all(),
@@ -72,15 +73,16 @@ def show_user_profile(request, id):
     user_details = UserDetails.objects.get(pk = user)
 
     context = {
+        'is_profile_page': True,
         'posts': process_likes_and_avatars(user_posts),
         'info': {
             'user': user_details.user,
-            'dp': user_details.display_picture,
+            'dp': user_details.display_picture,     # avatar of user whose profile is being viewed
             'user_description': user_details.user_description,
             'followers': getOverviewDetails(user_details.followers.all()),
             'following': getOverviewDetails(user_details.following.all())
         },
-        'avatar': user_details.display_picture
+        'avatar': UserDetails.objects.get(pk = request.user).display_picture      # avatar of user logged in
     }
     
     return render(request, "user-profile.html", context)

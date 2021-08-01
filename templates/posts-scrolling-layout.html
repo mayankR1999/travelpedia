@@ -20,10 +20,15 @@
                     </div>
                 {% else %}
                     <!------------------Refer this for future use------------>
-                    {% if post.owner in info.following %}
-                    <style>.custom-follow-button{display: none;}</style>
+                    {% if is_profile_page %}
+                        <style>
+                            .custom-follow-button{display: none;}
+                            .show-following-or-not{display: none;}
+                        </style>
+                    {% elif post.owner in info.following %}
+                        <style>.custom-follow-button{display: none;}</style>
                     {% else %}
-                    <style>.show-following-or-not{display: none;}</style>
+                        <style>.show-following-or-not{display: none;}</style>
                     {% endif %}
                     <!------------------------------------------------------->
                     <button style="float: right;" class="custom-follow-button" data-catid="{{post.owner.id}}" id="follow{{post.owner.id}}">Follow</button>

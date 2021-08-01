@@ -99,8 +99,10 @@ span.registration-entries{
 }
 
 .topbar-username{
-  font-weight: bold;
-  font-size: 140%;
+  color: lightgrey;
+  font-size: 1.4em;
+  font-weight: 600;
+  font-family: 'Inter';
   margin: 0px 0px 3px 10px;
 }
 
