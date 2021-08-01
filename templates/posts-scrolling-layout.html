@@ -37,22 +37,32 @@
 
             <!-------------------------------------POST Footer Start--------------------------------------->
             <div class="custom-card-footer">
-                {{ post.experience }}<br><br>
-                <div style="margin-left: -5px;">
+                {{ post.experience }}
+                <div style="margin: 10px 0px 0px -5px">
                     {% if user in post.liked_by %}
-                        <button class="fa fa-heart post-interaction-button" id="lb{{post.id}}" onclick="like_post(postID = {{post.id}})" href="#">like</button>
+                        <button class="fa fa-heart post-interaction-button" id="lb{{post.id}}" onclick="like_post(postID = {{post.id}})" href="#"></button>
                     {% else %}
-                        <button class="far fa-heart post-interaction-button" id="lb{{post.id}}" onclick="like_post(postID = {{post.id}})" href="#">like</button>
+                        <button class="far fa-heart post-interaction-button" id="lb{{post.id}}" onclick="like_post(postID = {{post.id}})" href="#"></button>
                     {% endif %}
-                    <button class="far fa-comment post-interaction-button" onclick="load_comment(userID = {{ user.id }}, postID = {{post.id}})">comment</button>
+                    <button class="far fa-comment post-interaction-button" onclick="load_comment(userID = {{ user.id }}, postID = {{post.id}})"></button>
                 </div>
-                <div id="{{post.id}}" style="font-family: Inter; font-weight: 600; margin: 5px 0px 0px 2px; color: darkgrey; font-size: .9em;">
-                    {% if post.total_likes == 1 %}
-                        {{ post.total_likes }} like
-                    {% else %}
-                        {{ post.total_likes }} likes
-                    {% endif %}
-                    <span>&#183;</span> x comments
+
+                <div style="font-weight: 600; margin: 5px 0px 0px 2px; color: darkgrey;">
+                    <span id="number_of_likes{{post.id}}">
+                        {% if post.total_likes == 1 %}
+                            1 like
+                        {% else %}
+                            {{ post.total_likes }} likes
+                        {% endif %}
+                    </span>
+                    <span>&#183;</span>
+                    <span id="number_of_comments{{post.id}}">
+                        {% if post.total_comments == 1 %}
+                            1 comment
+                        {% else %}
+                            {{ post.total_comments }} comments
+                        {% endif %}
+                    </span>
                 </div>
             </div>
             <!-------------------------------------POST Footer End----------------------------------------->
@@ -64,7 +74,7 @@
                 </div>
                 <div class="add-comment-form">
                     <input class="enter-comment-text-bar" id="comment{{post.id}}" type="text" placeholder="Add a comment" name="comment_text" required>
-                    <button class="btn btn-primary add-comment-button" data-catid="{{ post.id }}">Add</button>
+                    <button class="btn btn-primary" onclick="add_comment(userID = {{user.id}}, postID = {{ post.id }})">Add</button>
                 </div>
             </div>
             <!----------------------------------POST Comments Box End-------------------------------------->
@@ -94,12 +104,13 @@
             },
             success: function(data)
             {   
-                if(data['numberoflikes'] == 1){
-                    $( '#'+postID ).text(data['numberoflikes'] + ' like');
+                var num_likes = '';
+                if (data['numberoflikes'] == '1'){
+                    num_likes = '1 like';
+                }else{
+                    num_likes = data['numberoflikes']+' likes';
                 }
-                else{
-                    $( '#'+postID ).text(data['numberoflikes'] + ' likes');
-                }
+                document.getElementById('number_of_likes'+postID).innerHTML = num_likes;
             }
         })
     }
@@ -154,25 +165,32 @@
         })
     })
 
-    $('.add-comment-button').click(function(){
-        var catid = $(this).attr('data-catid');
-        var comment = document.getElementById('comment'+catid);
+    function add_comment(userID, postID){
+        var comment = document.getElementById('comment'+postID);
         var comment_text = comment.value;
 
         $.ajax({
             type: 'POST',
             url: '{% url "add_comment" %}',
             data: {
-                postID: catid,
+                postID: postID,
                 comment_text: comment_text,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function(response){
                 comment.value = '';
-                load_comment(catid);
+
+                var num_comments = '';
+                if (response == '1'){
+                    num_comments = '1 comment';
+                }else{
+                    num_comments = response+' comments';
+                }
+                document.getElementById('number_of_comments'+postID).innerHTML = num_comments;
+                load_comment(userID, postID);
             }
         })
-    })
+    }
 
     function load_comment(userID, postID){
         if ($('#comment-box-wrapper'+postID).is(":visible")){
@@ -213,7 +231,7 @@
                                     '<span class="comment-likes" id="cmtlikes' + comments[comment].id + '">' + comment_likes + '</span>' +
                                 '</div>' +
                             '</div>' +
-                            '<button class="' + heart_type + ' fa-heart post-interaction-button" onclick="like_comment(commentID = ' + comments[comment].id + ')" id="clb' + comments[comment].id + '" href="#" style="font-size: 1em;">like</button>' +
+                            '<button class="' + heart_type + ' fa-heart post-interaction-button" onclick="like_comment(commentID = ' + comments[comment].id + ')" id="clb' + comments[comment].id + '" href="#" style="font-size: 1em;"></button>' +
                         '</div>');
                     }
                     document.getElementById('comments-layout'+postID).innerHTML = new_inner_html;

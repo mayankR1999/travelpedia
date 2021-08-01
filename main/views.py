@@ -176,7 +176,7 @@ def add_comment(request):
     new_comment.create_timestamp()
     new_comment.save()
 
-    return HttpResponse()
+    return HttpResponse(str(Posts.objects.get(id=postID).count_comments()))
 
 
 def load_comments(request):

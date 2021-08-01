@@ -19,6 +19,7 @@ def getOverviewDetails(users):
 def process_likes_and_avatars(posts):
     for post in posts:
         post.liked_by = post.likes.all()
+        post.total_comments = post.count_comments()
         user_details = UserDetails.objects.get(pk = post.owner)
         post.owner.avatar = user_details.display_picture
 

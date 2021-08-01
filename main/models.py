@@ -19,6 +19,9 @@ class Posts(models.Model):
     def create_timestamp(self):
         self.timestamp = str(time.time())
 
+    def count_comments(self):
+        return len(Comment.objects.filter(post=self.id))
+
 
 class UserDetails(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)

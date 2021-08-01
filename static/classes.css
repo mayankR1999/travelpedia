@@ -95,6 +95,7 @@ span.registration-entries{
   border-top: none;
   display: flex; flex-direction: column;
   padding: 5px 15px 15px 15px;
+  font-family: Inter;
 }
 
 .topbar-username{
@@ -188,6 +189,7 @@ span.registration-entries{
   border-radius: 50px;
   padding: 2px 0px 2px 20px;
   margin: 3px 10px 3px 0px;
+  font-size: .9em;
 }
 .enter-comment-text-bar:hover{
   outline: 0; border: none;
