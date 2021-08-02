@@ -124,6 +124,7 @@ def remove_dp(request):
 
 def change_bio(request):
     bio = request.POST['text']
+    print(bio)
     user = request.user
     user_details = UserDetails.objects.get(user = user)
 

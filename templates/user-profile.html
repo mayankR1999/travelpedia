@@ -37,6 +37,9 @@
                 </div>
                 {% endif %}
                 <div class="dp-contain-box">
+                    {% if info.dp.url != '/static/pictures/avatardefault.png' %}
+                        <style>#display-picture{ border: 1.5px rgb(240, 240, 240) solid; }</style>
+                    {% endif %}
                     <img id="display-picture" style="border-radius: 100px;" src="{{info.dp.url}}" alt="Couldn't load image!" height="200px" width="200px">
                 </div>
             </div>
@@ -48,6 +51,7 @@
             <!-----------------Start of area for editing and showing bio of user------------------>
             <!------------------------------------------------------------------------------------>
             <div class="description-wrapper">
+                <span style="font-size: 1.2em; font-family: Inter; font-weight: 600;">{{info.user.first_name}} {{info.user.last_name}}</span>
                 {% if info.user == user %}
                     <div class="edit-bio">
                         {% load cache %}
@@ -93,14 +97,11 @@
         <div class="followers-list" id="follower-list">
             {% for follower, follower_avatar in info.followers %}
                 <div class="my-connection-card" id="follower-card{{follower.id}}">
-                    <img src="{{follower_avatar.url}}" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 25px;" height="50px" width="50px">
+                    <a href="{% url 'show_user_profile' follower.id %}">
+                        <img src="{{follower_avatar.url}}" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 25px;" height="50px" width="50px">
+                    </a>
                     <div style="padding: 0px 40px 0px 15px; overflow:hidden; width: 60%">
-                        <div class="user-name">
-                            {{follower.username}}
-                            <!-- Work on it {% if user not in info.following %}
-                            <button class="custom-follow-button" data-catid="{{user.id}}" id="follow{{user.id}}">Follow</button>
-                            {% endif %} -->
-                        </div>
+                        <div class="user-name">{{follower.username}}</div>
                         <div class="title-name">{{follower.first_name}} {{follower.last_name}}</div>
                     </div>
                     
@@ -114,7 +115,9 @@
         <div class="following-list" id="following-list">
             {% for following, following_avatar in info.following %}
                 <div class="my-connection-card" id="following-card{{following.id}}">
-                    <img src="{{following_avatar.url}}" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 25px;" height="50px" width="50px">
+                    <a href="{% url 'show_user_profile' following.id %}">
+                        <img src="{{following_avatar.url}}" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 25px;" height="50px" width="50px">
+                    </a>
                     <div style="padding: 0px 40px 0px 15px; overflow:hidden; width: 60%">
                         <div class="user-name">{{following.username}}</div>
                         <div class="title-name">{{following.first_name}} {{following.last_name}}</div>
