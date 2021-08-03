@@ -6,12 +6,16 @@
     <div class="account-recommend-wrapper">
         {% for account in accounts %}
             <div class="account-recommend-box">
-                <img src="{{account.display_picture.url}}" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 35px;" height="70px" width="70px">
+                <a href="{% url 'show_user_profile' account.user.id %}">
+                    <img src="{{account.display_picture.url}}" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 35px;" height="70px" width="70px">
+                </a>
                 <div style="font-weight: 650; margin-top:10px; margin-bottom:-3px">{{account.user.username}}</div>
                 <div style="color:darkgrey; font-size:.9em; font-weight: 600; margin-bottom: 10px;">{{account.user.first_name}}</div>
 
-                <button class="custom-follow-button" {% if account.user in logged_user_following %}style="display: none;"{% endif %}>Follow</button>
-                <button class="show-following-or-not" {% if account.user not in logged_user_following %}style="display: none;"{% endif %}>Following</button>
+                <button class="custom-follow-button" {% if account.user in logged_user_following %}style="display: none;"{% endif %}
+                    onclick="follow(accountID = {{account.user.id}})" id="follow{{account.user.id}}">Follow</button>
+                <button class="show-following-or-not" {% if account.user not in logged_user_following %}style="display: none;"{% endif %}
+                    onclick="unfollow(accountID = {{account.user.id}})" id="unfollow{{account.user.id}}">Following</button>
             </div>
         {% endfor %}
     </div>
