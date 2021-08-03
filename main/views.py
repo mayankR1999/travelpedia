@@ -162,9 +162,13 @@ def explore(request):
     if request.method == 'POST':
         pass
     else:
+        logged_user_details = UserDetails.objects.get(pk = request.user)
+
         context = {
             'posts': Posts.objects.all(),
-            'accounts': UserDetails.objects.all()
+            'accounts': UserDetails.objects.all(),
+            'logged_user_followers': logged_user_details.followers.all(),
+            'logged_user_following': logged_user_details.following.all()
         }
 
         return render(request, 'explore.html', context)

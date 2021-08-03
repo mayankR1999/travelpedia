@@ -19,20 +19,12 @@
                         </div>
                     </div>
                 {% else %}
-                    <!------------------Refer this for future use------------>
-                    {% if is_profile_page %}
-                        <style>
-                            .custom-follow-button{display: none;}
-                            .show-following-or-not{display: none;}
-                        </style>
-                    {% elif post.owner in info.following %}
-                        <style>.custom-follow-button{display: none;}</style>
-                    {% else %}
-                        <style>.show-following-or-not{display: none;}</style>
+                    {% if not is_profile_page %}
+                        <button class="custom-follow-button" {% if post.owner in info.following %}style="display: none; float: right"{% else %}style="float: right"{% endif %}
+                            onclick="follow(accountID = {{post.owner.id}})" id="follow{{post.owner.id}}">Follow</button>
+                        <button class="show-following-or-not" {% if post.owner not in info.following %}style="display: none; float: right"{% else %}style="float: right"{% endif %}
+                            onclick="unfollow(accountID = {{post.owner.id}})" id="unfollow{{post.owner.id}}">Following</button>
                     {% endif %}
-                    <!------------------------------------------------------->
-                    <button style="float: right;" class="custom-follow-button" onclick="follow(accountID = {{post.owner.id}})" id="follow{{post.owner.id}}">Follow</button>
-                    <button style="float: right;" class="show-following-or-not" onclick="unfollow(accountID = {{post.owner.id}})" id="unfollow{{post.owner.id}}">Following</button>
                 {% endif %}
                 <div class="place-heading">{{ post.place }}</div>
             </div>
