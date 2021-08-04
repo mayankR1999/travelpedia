@@ -23,10 +23,15 @@
     <div class="explore-page-headings">Explore</div>
     <div class="explore-post-wrapper">
         {% for post in posts %}
-            <div class="explore-post-box">
+            <div class="explore-post-box" onclick="preview_post(postID = {{post.id}}, userID = {{ user.id }})">
                 <img src="{{post.img.url}}" class="explore-post-image" alt="Couldn't load image!" height="auto" width="auto">
             </div>
         {% endfor %}
+    </div>
+
+    <div class="overlay" id="overlay-with-bg-blur">
+        <div class="post-preview-wrapper" id="post-preview">
+        </div>
     </div>
 {% else %}
     <div class="container" style="text-align: center;">
@@ -34,5 +39,79 @@
         <a href = "{% url 'login' %}">Sign In</a>
     </div>
 {% endif %}
+
+<script>
+    function preview_post(postID, userID){
+        $.ajax({
+            type: 'GET',
+            url: location.origin + '/user/getPostDetails',
+            data: {
+                postID: postID
+            },
+            success: function(data){
+                var context = JSON.parse(data);
+                var heart_type = 'far';
+                if (context.post.liked == true){
+                    heart_type = 'fa';
+                }
+
+                var width = context.post.img.width;
+                var height = context.post.img.height;
+                var ratio = width/height;
+
+                if (ratio > 2 && width > 800){
+                    width = 800;
+                    height = width/ratio;
+                }else if(height > 400){
+                    height = 400;
+                    width = height*ratio;
+                }
+
+                var new_inner_html = '';
+                new_inner_html +=
+                ('<div class="post-preview-header">' +
+                    '<a href=' + location.origin + '/user/profile/' + context.post.owner.id + '>' +
+                    '<img src="' + context.post.owner.avatar + '" alt="error" style="margin: 5px; border: 1.5px rgb(240, 240, 240) solid; border-radius: 20px;" height="40px" width="40px"></a>' +
+                    '<span style="font-family: Inter; font-weight: 600; margin-left: 3px;">' + context.post.owner.username + '</span>' +
+                    '<i class="fas fa-times-circle remove-button" onclick="remove_preview()"></i>' +
+                '</div>' +
+                '<div class="post-preview-body">' +
+                    '<img src="' + context.post.img.url + '" alt="error" height="' + height + 'px" width="' + width + 'px">' +
+                '</div>' +
+                '<div class="post-preview-footer">' +
+                    '<button class="' + heart_type + ' fa-heart post-interaction-button" id="lb' + postID + '" onclick="preview_post_like(postID = ' + postID + ')" style="background-color: inherit; margin: 5px;" href="#"></button>' +
+                '</div>');
+
+                document.getElementById('post-preview').innerHTML = new_inner_html;
+                document.getElementById('overlay-with-bg-blur').style.display = "flex";
+            }
+        })
+    }
+
+    function preview_post_like(postID){
+        var element = document.querySelector('#lb'+postID);
+        if(element.classList.contains('fa')){
+            element.classList.remove('fa');
+            element.classList.add('far');
+        }
+        else{
+            element.classList.remove('far');
+            element.classList.add('fa');
+        }
+        $.ajax({
+            type: 'GET',
+            url: location.origin + '/user/like',
+            data: {
+                post_id: postID
+            },
+            success: function(data){
+            }
+        })
+    }
+
+    function remove_preview(){
+        $("#overlay-with-bg-blur").hide();
+    }
+</script>
 
 {% endblock %}

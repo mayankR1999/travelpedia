@@ -5,6 +5,7 @@ from django.urls import reverse
 from .models import Posts, UserDetails, Comment
 from django.core import serializers
 from .functions import *
+from PIL import Image
 import os, json
 
 # Create your views here.
@@ -172,6 +173,32 @@ def explore(request):
         }
 
         return render(request, 'explore.html', context)
+
+
+def get_post_details(request):
+    postID = request.GET['postID']
+    post = Posts.objects.get(id = postID)
+    user_details = UserDetails.objects.get(pk = post.owner)
+
+    width, height = Image.open(post.img).size
+
+    context = {
+        'post': {
+            'liked': True if request.user in post.likes.all() else False,
+            'img': {
+                'url': post.img.url,
+                'width': width,
+                'height': height
+            },
+            'owner':{
+                'id': post.owner.id,
+                'username': post.owner.username,
+                'avatar': user_details.display_picture.url
+            }
+        }
+    }
+
+    return HttpResponse(json.dumps(context))
 
 
 def add_comment(request):

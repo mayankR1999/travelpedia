@@ -17,4 +17,5 @@ urlpatterns = [
     path('submitNewComment', views.add_comment, name = "add_comment"),
     path('loadComments', views.load_comments, name = "load_comments"),
     path('likeComment', views.like_comment, name = "like_comment"),
+    path('getPostDetails', views.get_post_details, name = "get_post_details"),
 ]
