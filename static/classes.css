@@ -119,6 +119,7 @@ span.registration-entries{
   border-radius: 15px;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 .dropdown-bars:hover{
   background-color: lightgrey;

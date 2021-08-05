@@ -69,21 +69,25 @@ def likePost(request):      # Use AJAX
 
 
 def show_user_profile(request, id):
-    user = User.objects.get(id = id)
-    user_posts = Posts.objects.filter(owner = user)
-    user_details = UserDetails.objects.get(pk = user)
+    user_being_visited = User.objects.get(id = id)
+    user_being_visited_posts = Posts.objects.filter(owner =user_being_visited)
+    user_being_visited_details = UserDetails.objects.get(pk = user_being_visited)
+
+    logged_user_details = UserDetails.objects.get(pk = request.user)
 
     context = {
         'is_profile_page': True,
-        'posts': process_likes_and_avatars(user_posts),
+        'posts': process_likes_and_avatars(user_being_visited_posts),
         'info': {
-            'user': user_details.user,
-            'dp': user_details.display_picture,     # avatar of user whose profile is being viewed
-            'user_description': user_details.user_description,
-            'followers': getOverviewDetails(user_details.followers.all()),
-            'following': getOverviewDetails(user_details.following.all())
+            'user': user_being_visited_details.user,
+            'dp': user_being_visited_details.display_picture,     # avatar of user whose profile is being viewed
+            'user_description': user_being_visited_details.user_description,
+            'followers': getOverviewDetails(user_being_visited_details.followers.all()),
+            'following': getOverviewDetails(user_being_visited_details.following.all())
         },
-        'avatar': UserDetails.objects.get(pk = request.user).display_picture      # avatar of user logged in
+        'avatar': logged_user_details.display_picture,      # avatar of user logged in
+        'logged_user_followings': logged_user_details.following.all(),
+        'logged_user_followers': logged_user_details.followers.all()
     }
     
     return render(request, "user-profile.html", context)
@@ -125,7 +129,6 @@ def remove_dp(request):
 
 def change_bio(request):
     bio = request.POST['text']
-    print(bio)
     user = request.user
     user_details = UserDetails.objects.get(user = user)
 

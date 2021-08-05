@@ -23,14 +23,14 @@
                         </form>
                         {% load cache %}
                         {% cache 3600 add_icon %}
-                        <i class="fas fa-plus" id="add-new-dp-action"></i>
+                        <i class="fas fa-plus" style="cursor: pointer;" id="add-new-dp-action"></i>
                         {% endcache %}
                         <h6>New</h6>
                     </div>
                     <div>
                         {% load cache %}
                         {% cache 3600 remove_icon %}
-                        <i class="fas fa-times" id="remove-dp" data-catid="{{info.user.id}}"></i>
+                        <i class="fas fa-times" style="cursor: pointer;" id="remove-dp" data-catid="{{info.user.id}}"></i>
                         {% endcache %}
                         <h6>Del</h6>
                     </div>
@@ -52,11 +52,17 @@
             <!------------------------------------------------------------------------------------>
             <div class="description-wrapper">
                 <span style="font-size: 1.2em; font-family: Inter; font-weight: 600;">{{info.user.first_name}} {{info.user.last_name}}</span>
-                {% if info.user == user %}
+                {% if info.user != user %}
+                    <span style="font-size: larger;">&#183;</span>
+                    <span {% if info.user in logged_user_followings %}style="cursor: pointer; color: blue; font-weight: 600; display: none;"{% else %}style="cursor: pointer; color: blue; font-weight: 600;"{% endif %}
+                        onclick="follow(accountID = {{info.user.id}})" id="follow{{info.user.id}}">Follow</span>
+                    <span {% if info.user not in logged_user_followings %}style="cursor: pointer; color:darkgray; font-weight: 600; display: none;"{% else %}style="cursor: pointer; color:darkgray; font-weight: 600;"{% endif %}
+                        onclick="unfollow(accountID = {{info.user.id}})" id="unfollow{{info.user.id}}">Following</span>
+                {% else %}
                     <div class="edit-bio">
                         {% load cache %}
                         {% cache 3600 pen_icon %}
-                        <i class="fas fa-pencil-alt" id="change-bio-action"></i>
+                        <i class="fas fa-pencil-alt" style="cursor: pointer;" id="change-bio-action"></i>
                         {% endcache %}
                     </div>
                     <div class="edit-bio-container">
