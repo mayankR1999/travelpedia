@@ -1,3 +1,7 @@
+@import url(profile_page_classes.css);
+@import url(explore_page_classes.css);
+@import url(upload_page_classes.css);
+
 .outer-box-registration-page{
   display: flex;
   margin: 1.5% 4%;

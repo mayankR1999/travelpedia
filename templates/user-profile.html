@@ -30,7 +30,7 @@
                     <div>
                         {% load cache %}
                         {% cache 3600 remove_icon %}
-                        <i class="fas fa-times" style="cursor: pointer;" id="remove-dp" data-catid="{{info.user.id}}"></i>
+                        <i class="fas fa-times" style="cursor: pointer;" id="remove-dp"></i>
                         {% endcache %}
                         <h6>Del</h6>
                     </div>
@@ -112,7 +112,7 @@
                     </div>
                     
                     {% if info.user == user %}
-                    <button class="remove-follower-button" data-catid="{{follower.id}}" id="remove{{follower.id}}">Remove</button>
+                    <button class="remove-follower-button" onclick="remove_follower(followerID = {{follower.id}})" id="remove{{follower.id}}">Remove</button>
                     {% endif %}
                 </div>
             {% endfor %}
@@ -163,8 +163,8 @@
         document.getElementById("dp-form-submit").click();
     })
 
-    $('#remove-dp').click(function(){
-        const profile_pic = document.querySelector('#display-picture');
+    $("#remove-dp").click(function(){
+        var profile_pic = document.querySelector('#display-picture');
 
         $.ajax({
             type: 'GET',
@@ -182,8 +182,8 @@
     })
 
     $("#edit-bio-submit-btn").click(function(){
-        const textarea = document.getElementById("edit-bio-textarea");
-        const bio = textarea.value;
+        var textarea = document.getElementById("edit-bio-textarea");
+        var bio = textarea.value;
 
         $.ajax({
             type : 'POST',
@@ -232,23 +232,21 @@
         }
     })
 
-    $('.remove-follower-button').click(function(){
+    function remove_follower(followerID){
         var confirmation = confirm('Do you want to remove this follower?')
         if (confirmation){
-            var catid = $(this).attr("data-catid");
-
             $.ajax({
                 type: "GET",
                 url: "{% url 'remove_follower' %}",
                 data: {
-                    user_id: catid
+                    user_id: followerID
                 },
                 success: function(data){
-                    $('#follower-card'+catid).hide();
+                    $('#follower-card'+followerID).hide();
                 }
             })
         }
-    })
+    }
 </script>
 
 {% endblock %}
