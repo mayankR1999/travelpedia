@@ -1,3 +1,40 @@
+.search-icon{
+    background-color: white;
+    color: darkslategrey;
+    padding: 7px;
+    border-radius: 4px;
+    font-size: 1.5em;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.search-icon:hover{
+    filter: drop-shadow(1px 2px 3px black);
+}
+
+.search-people-form{
+    display: flex;
+    margin-right: 10px;
+}
+.search-people-form .form-control{
+    display: none;
+    width: 0px;
+}
+.search-people-form .btn{
+    display: none;
+}
+
+.search-location-form{
+    display: flex;
+    margin-right: 10px;
+}
+.search-location-form .form-control{
+    display: none;
+    width: 0px;
+}
+.search-location-form .btn{
+    display: none;
+}
+
 .explore-page-headings{
     margin-left: 1%;
     margin-top: 20px;

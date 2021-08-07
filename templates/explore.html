@@ -2,6 +2,33 @@
 
 {% block content %}
 {% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top my-topbar">
+        <div class="container-fluid">
+            <div class="search-people-form">
+                <input class="form-control me-2" id="search-people-input" type="text" name="search-query" placeholder="Search People" aria-label="Search People">
+                <button class="btn btn-outline-light" id="search-people-go">Go</button>
+            </div>
+            <span class="fa fa-search search-icon" id="search-people-icon" onclick="search_people_transition()"></span>
+            
+            <div class="search-location-form">
+                <input class="form-control me-2" id="search-location-input" type="text" name="search-query" placeholder="Search Location" aria-label="Search Location">
+                <button class="btn btn-outline-light" id="search-location-go">Go</button>
+            </div>
+            <span class="fas fa-search-location search-icon" id="search-location-icon" onclick="search_location_transition()"></span>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'user_feed' %}">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'show_user_profile' user.id %}">MY PROFILE</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="explore-page-headings">Discover People</div>
     <div class="account-recommend-wrapper">
         {% for account in accounts %}
@@ -41,6 +68,32 @@
 {% endif %}
 
 <script>
+    function search_people_transition(){
+        if ($('#search-location-go').is(":visible")){
+            $("#search-location-input").animate({width: '0px'}, "slow", function(){
+                document.getElementById("search-location-input").style.display = 'none';
+                $("#search-location-go").hide();
+                $("#search-location-icon").show();
+            });
+        }
+        $("#search-people-icon").hide();
+        $("#search-people-go").show();
+        $("#search-people-input").show().animate({width: '200px'}, "slow");
+    }
+
+    function search_location_transition(){
+        if ($('#search-people-go').is(":visible")){
+            $("#search-people-input").animate({width: '0px'}, "slow", function(){
+                document.getElementById("search-people-input").style.display = 'none';
+                $("#search-people-go").hide();
+                $("#search-people-icon").show();
+            });
+        }
+        $("#search-location-icon").hide();
+        $("#search-location-go").show();
+        $("#search-location-input").show().animate({width: '200px'}, "slow");
+    }
+
     function preview_post(postID, userID){
         $.ajax({
             type: 'GET',
