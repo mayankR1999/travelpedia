@@ -167,12 +167,14 @@ def explore(request):
         pass
     else:
         logged_user_details = UserDetails.objects.get(pk = request.user)
+        accounts = list(UserDetails.objects.all())
 
         context = {
             'posts': Posts.objects.all(),
-            'accounts': UserDetails.objects.all(),
-            'logged_user_followers': logged_user_details.followers.all(),
-            'logged_user_following': logged_user_details.following.all()
+            'initial_accounts': accounts[:4],
+            'hidden_accounts': accounts[4:],
+            'logged_user_followers': [acc.id for acc in logged_user_details.followers.all()],
+            'logged_user_following': [acc.id for acc in logged_user_details.following.all()]
         }
 
         return render(request, 'explore.html', context)
@@ -203,6 +205,16 @@ def get_post_details(request):
 
     return HttpResponse(json.dumps(context))
 
+
+def search_user(request):
+    search_query = request.POST['search_query']
+    logged_user_details = UserDetails.objects.get(pk = request.user)
+
+    queried_user_details = search_user_util(search_query)
+    data = [user_detail.json for user_detail in queried_users]
+
+    return HttpResponse(json.dumps(data))
+    
 
 def add_comment(request):
     postID = request.POST['postID']

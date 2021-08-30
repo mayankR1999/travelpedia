@@ -2,17 +2,17 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top my-topbar">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top my-topbar" id="navigation-bar">
         <div class="container-fluid">
             <div class="search-people-form">
                 <input class="form-control me-2" id="search-people-input" type="text" name="search-query" placeholder="Search People" aria-label="Search People">
-                <button class="btn btn-outline-light" id="search-people-go">Go</button>
+                <button class="btn btn-outline-light" id="search-people-go" onclick="search_people()">Go</button>
             </div>
             <span class="fa fa-search search-icon" id="search-people-icon" onclick="search_people_transition()"></span>
             
             <div class="search-location-form">
                 <input class="form-control me-2" id="search-location-input" type="text" name="search-query" placeholder="Search Location" aria-label="Search Location">
-                <button class="btn btn-outline-light" id="search-location-go">Go</button>
+                <button class="btn btn-outline-light" id="search-location-go" onclick="search_post()">Go</button>
             </div>
             <span class="fas fa-search-location search-icon" id="search-location-icon" onclick="search_location_transition()"></span>
 
@@ -29,31 +29,43 @@
         </div>
     </nav>
 
-    <div class="explore-page-headings">Discover People</div>
-    <div class="account-recommend-wrapper">
-        {% for account in accounts %}
-            <div class="account-recommend-box">
-                <a href="{% url 'show_user_profile' account.user.id %}">
-                    <img src="{{account.display_picture.url}}" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 35px;" height="70px" width="70px">
-                </a>
-                <div style="font-weight: 650; margin-top:10px; margin-bottom:-3px">{{account.user.username}}</div>
-                <div style="color:darkgrey; font-size:.9em; font-weight: 600; margin-bottom: 10px;">{{account.user.first_name}}</div>
-
-                <button class="custom-follow-button" {% if account.user in logged_user_following %}style="display: none;"{% endif %}
-                    onclick="follow(accountID = {{account.user.id}})" id="follow{{account.user.id}}">Follow</button>
-                <button class="show-following-or-not" {% if account.user not in logged_user_following %}style="display: none;"{% endif %}
-                    onclick="unfollow(accountID = {{account.user.id}})" id="unfollow{{account.user.id}}">Following</button>
+    <div id="explore-users">
+        <div class="explore-page-headings">Discover People</div>
+        <div class="account-recommend-wrapper">
+            <span class="fas fa-chevron-left inactive-chevron" id="left-inactive-chevron"></span>
+            <span class="fas fa-chevron-left chevron" id="left-active-chevron" onclick="accounts_slider.slide_left()" style="display: none;"></span>
+            
+            <div style="display: flex; width: -webkit-fill-available;" id="accounts-wrapper">
+                {% for account in initial_accounts %}
+                    <div class="account-recommend-box" id="account-recommend-box{{account.user.id}}">
+                        <a href="{% url 'show_user_profile' account.user.id %}">
+                            <img src="{{account.display_picture.url}}" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 35px;" height="70px" width="70px">
+                        </a>
+                        <div style="font-weight: 650; margin-top:10px; margin-bottom:-3px">{{account.user.username}}</div>
+                        <div style="color:darkgrey; font-size:.9em; font-weight: 600; margin-bottom: 10px;">{{account.user.first_name}}</div>
+                        
+                        <button class="custom-follow-button" {% if account.user.id in logged_user_following %}style="display: none;"{% endif %}
+                            onclick="follow(accountID = {{account.user.id}})" id="follow{{account.user.id}}">Follow</button>
+                        <button class="show-following-or-not" {% if account.user.id not in logged_user_following %}style="display: none;"{% endif %}
+                            onclick="unfollow(accountID = {{account.user.id}})" id="unfollow{{account.user.id}}">Following</button>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+
+            <span class="fas fa-chevron-right inactive-chevron" id="right-inactive-chevron" {% if hidden_accounts %}style="display: none;"{% endif %}></span>
+            <span class="fas fa-chevron-right chevron" id="right-active-chevron" onclick="accounts_slider.slide_right()" {% if not hidden_accounts %}style="display: none;"{% endif %}></span>
+        </div>
     </div>
 
-    <div class="explore-page-headings">Explore</div>
-    <div class="explore-post-wrapper">
-        {% for post in posts %}
-            <div class="explore-post-box" onclick="preview_post(postID = {{post.id}}, userID = {{ user.id }})">
-                <img src="{{post.img.url}}" class="explore-post-image" alt="Couldn't load image!" height="auto" width="auto">
-            </div>
-        {% endfor %}
+    <div id="explore-posts">
+        <div class="explore-page-headings">Explore</div>
+        <div class="explore-post-wrapper">
+            {% for post in posts %}
+                <div class="explore-post-box" onclick="preview_post(postID = {{post.id}}, userID = {{ user.id }})">
+                    <img src="{{post.img.url}}" class="explore-post-image" alt="Couldn't load image!" height="auto" width="auto">
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
     <div class="overlay" id="overlay-with-bg-blur">
@@ -67,34 +79,155 @@
     </div>
 {% endif %}
 
-<script>
+<script type="text/javascript">
+
+    const accounts_slider = {
+        left_stack: [],
+        middle_queue: [
+            {% for acc in initial_accounts %}
+                {% if not forloop.first %},{% endif %}
+                {
+                    avatar: "{{acc.display_picture.url}}",
+                    username: "{{acc.username}}",
+                    first_name: "{{acc.first_name}}",
+                    user_id: "{{acc.user.id}}"
+                }
+            {% endfor %}
+        ],
+        right_stack: [
+            {% for acc in hidden_accounts %}
+                {% if not forloop.first %},{% endif %}
+                {
+                    avatar: "{{acc.display_picture.url}}",
+                    username: "{{acc.username}}",
+                    first_name: "{{acc.first_name}}",
+                    user_id: "{{acc.user.id}}"
+                }
+            {% endfor %}
+        ],
+        
+        logged_user_following_ids: new Set({{logged_user_following}}),
+        logged_user_followers_ids: new Set({{logged_user_followers}}),
+        
+        slide_left: function(){
+            let acc_to_disappear = this.middle_queue[3];
+            let acc_to_appear = this.left_stack[this.left_stack.length-1];
+            
+            this.middle_queue.unshift(this.left_stack.pop());
+            this.right_stack.unshift(this.middle_queue.pop());
+
+            document.getElementById("account-recommend-box" + acc_to_disappear.user_id).remove();
+            document.getElementById("accounts-wrapper").innerHTML = (this.design_new_acc_box(acc_to_appear) + 
+                                                                    document.getElementById("accounts-wrapper").innerHTML);
+
+            if (this.left_stack.length == 0){
+                $("#left-active-chevron").hide();
+                $("#left-inactive-chevron").show();
+            }
+
+            if (this.right_stack.length == 1){
+                $("#right-inactive-chevron").hide();
+                $("#right-active-chevron").show();
+            }
+        },
+        
+        slide_right: function(){
+            let acc_to_disappear = this.middle_queue[0];
+            let acc_to_appear = this.right_stack[0];
+            
+            this.left_stack.push(this.middle_queue.shift());
+            this.middle_queue.push(this.right_stack.shift());
+
+            document.getElementById("account-recommend-box" + acc_to_disappear.user_id).remove();
+            document.getElementById("accounts-wrapper").innerHTML += this.design_new_acc_box(acc_to_appear);
+
+            if (this.right_stack.length == 0){
+                $("#right-active-chevron").hide();
+                $("#right-inactive-chevron").show();
+            }
+
+            if (this.left_stack.length == 1){
+                $("#left-inactive-chevron").hide();
+                $("#left-active-chevron").show();
+            }
+        },
+
+        design_new_acc_box: function(info){
+            var corresponding_button = '';
+            if (this.logged_user_following_ids.has(info.user_id)){
+                corresponding_button += '<button class="show-following-or-not"' +
+                'onclick="unfollow(accountID = ' + info.user_id + ')" id="unfollow' + info.user_id + '">Following</button>'
+            }else{
+                corresponding_button += '<button class="custom-follow-button"' +
+                'onclick="follow(accountID = ' + info.user_id + ')" id="follow' + info.user_id + '">Follow</button>'
+            }
+
+            var new_html = (
+                '<div class="account-recommend-box" id="account-recommend-box' + info.user_id + '">' +
+                    '<a href="' + location.origin + '/profile/' + info.user_id + '">' +
+                        '<img src="' + info.avatar + '" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 35px;" height="70px" width="70px">' +
+                    '</a>' +
+                    '<div style="font-weight: 650; margin-top:10px; margin-bottom:-3px">' + info.username + '</div>' +
+                    '<div style="color:darkgrey; font-size:.9em; font-weight: 600; margin-bottom: 10px;">' + info.first_name + '</div>' +
+                    corresponding_button +
+                '</div>');
+
+            return new_html;
+        }
+    };
+    // everything's good
+
     function search_people_transition(){
         if ($('#search-location-go').is(":visible")){
-            $("#search-location-input").animate({width: '0px'}, "slow", function(){
+            $("#search-location-input").animate({width: '0px'}, "normal", function(){
                 document.getElementById("search-location-input").style.display = 'none';
                 $("#search-location-go").hide();
                 $("#search-location-icon").show();
+                $("#explore-users").slideDown();
             });
         }
         $("#search-people-icon").hide();
         $("#search-people-go").show();
-        $("#search-people-input").show().animate({width: '200px'}, "slow");
+        $("#search-people-input").show().animate({width: '200px'}, "normal");
+        $("#explore-posts").slideUp();
+    }
+
+    function search_people(){
+        var search_element = document.getElementById("search-people-input");
+        var search_query = search_element.value;
+        if (search_query.length == 0){
+            alert('Input not valid!');
+        }else{
+            $.ajax({
+                type: 'POST',
+                url: '{% url "search_user" %}',
+                data: {
+                    search_query: search_query,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(data){
+                }
+            })
+        }
     }
 
     function search_location_transition(){
         if ($('#search-people-go').is(":visible")){
-            $("#search-people-input").animate({width: '0px'}, "slow", function(){
+            $("#search-people-input").animate({width: '0px'}, "normal", function(){
                 document.getElementById("search-people-input").style.display = 'none';
                 $("#search-people-go").hide();
                 $("#search-people-icon").show();
+                $("#explore-posts").slideDown();
             });
         }
         $("#search-location-icon").hide();
         $("#search-location-go").show();
-        $("#search-location-input").show().animate({width: '200px'}, "slow");
+        $("#search-location-input").show().animate({width: '200px'}, "normal");
+        $("#explore-users").slideUp();
     }
 
     function preview_post(postID, userID){
+        $('#navigation-bar').hide();
         $.ajax({
             type: 'GET',
             url: location.origin + '/user/getPostDetails',
@@ -164,6 +297,7 @@
 
     function remove_preview(){
         $("#overlay-with-bg-blur").hide();
+        $("#navigation-bar").show();
     }
 </script>
 

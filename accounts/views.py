@@ -52,7 +52,8 @@ def register(request):
             ,first_name = first_name, last_name = last_name)
             user.save()
             
-            user_details = UserDetails(user = user)
+            user_details = UserDetails(user = user, username = user_name, first_name = first_name,
+            last_name = last_name, full_name = first_name+ ' ' +last_name)
             user_details.save()
 
             return redirect('/')

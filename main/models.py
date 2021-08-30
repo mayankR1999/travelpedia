@@ -25,6 +25,10 @@ class Posts(models.Model):
 
 class UserDetails(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    username = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    full_name = models.CharField(max_length=60)
     display_picture = models.ImageField(upload_to='pictures', default='../static/pictures/avatardefault.png')
     user_description = models.CharField(max_length=250, null=True)
     followers = models.ManyToManyField(User, related_name='user_followers')
@@ -35,6 +39,15 @@ class UserDetails(models.Model):
 
     def num_of_following(self):
         return self.following.count()
+
+    def json(self):
+        return {
+            'id': self.user.id,
+            'avatar_url': self.display_picture.url,
+            'first_name': self.full_name,
+            'last_name': self.last_name,
+            'username': self.username,
+        }
 
 
 class Comment(models.Model):
