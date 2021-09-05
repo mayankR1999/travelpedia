@@ -42,9 +42,9 @@ class UserDetails(models.Model):
 
     def json(self):
         return {
-            'id': self.user.id,
+            'user_id': self.user.id,
             'avatar_url': self.display_picture.url,
-            'first_name': self.full_name,
+            'first_name': self.first_name,
             'last_name': self.last_name,
             'username': self.username,
         }

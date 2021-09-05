@@ -211,9 +211,13 @@ def search_user(request):
     logged_user_details = UserDetails.objects.get(pk = request.user)
 
     queried_user_details = search_user_util(search_query)
-    data = [user_detail.json for user_detail in queried_users]
+    data = [user_detail.json() for user_detail in queried_user_details]
+    context = {
+        'initial_accounts': data[:4],
+        'hidden_accounts': data[4:]
+    }
 
-    return HttpResponse(json.dumps(data))
+    return HttpResponse(json.dumps(context))
     
 
 def add_comment(request):

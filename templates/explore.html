@@ -87,7 +87,7 @@
             {% for acc in initial_accounts %}
                 {% if not forloop.first %},{% endif %}
                 {
-                    avatar: "{{acc.display_picture.url}}",
+                    avatar_url: "{{acc.display_picture.url}}",
                     username: "{{acc.username}}",
                     first_name: "{{acc.first_name}}",
                     user_id: "{{acc.user.id}}"
@@ -98,7 +98,7 @@
             {% for acc in hidden_accounts %}
                 {% if not forloop.first %},{% endif %}
                 {
-                    avatar: "{{acc.display_picture.url}}",
+                    avatar_url: "{{acc.display_picture.url}}",
                     username: "{{acc.username}}",
                     first_name: "{{acc.first_name}}",
                     user_id: "{{acc.user.id}}"
@@ -165,7 +165,7 @@
             var new_html = (
                 '<div class="account-recommend-box" id="account-recommend-box' + info.user_id + '">' +
                     '<a href="' + location.origin + '/profile/' + info.user_id + '">' +
-                        '<img src="' + info.avatar + '" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 35px;" height="70px" width="70px">' +
+                        '<img src="' + info.avatar_url + '" alt="Error!" style="border: 1.5px rgb(240, 240, 240) solid; border-radius: 35px;" height="70px" width="70px">' +
                     '</a>' +
                     '<div style="font-weight: 650; margin-top:10px; margin-bottom:-3px">' + info.username + '</div>' +
                     '<div style="color:darkgrey; font-size:.9em; font-weight: 600; margin-bottom: 10px;">' + info.first_name + '</div>' +
@@ -175,7 +175,6 @@
             return new_html;
         }
     };
-    // everything's good
 
     function search_people_transition(){
         if ($('#search-location-go').is(":visible")){
@@ -206,6 +205,27 @@
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 },
                 success: function(data){
+                    var accounts = JSON.parse(data);
+                    accounts_slider.left_stack = [];
+                    accounts_slider.middle_queue = accounts.initial_accounts;
+                    accounts_slider.right_stack = accounts.hidden_accounts;
+
+                    var new_inner_html = ''
+                    for (var acc in accounts_slider.middle_queue){
+                        new_inner_html += accounts_slider.design_new_acc_box(accounts_slider.middle_queue[acc]);
+                    }
+                    document.getElementById("accounts-wrapper").innerHTML = new_inner_html;
+
+                    $("#left-inactive-chevron").show();
+                    $("#left-active-chevron").hide();
+
+                    if (accounts_slider.right_stack.length > 0){
+                        $("#right-active-chevron").show();
+                        $("#right-inactive-chevron").hide();
+                    }else{
+                        $("#right-inactive-chevron").show();
+                        $("#right-active-chevron").hide();
+                    }
                 }
             })
         }
