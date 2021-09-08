@@ -6,12 +6,28 @@
     <h1 style="color: blue; font-family: Lobster; font-size: 60px; text-shadow: 1px 2px 3px;">travelpedia</h1><br><br>
     <a class="btn btn-primary link" href = "{% url 'login' %}">Login</a><br><br><br>
     <h6>Don't have an account? <a href="{% url 'register' %}">Sign Up</a></h6><br>
-    <h6>Contact us | About</h6>
+    <h6><a href="#" onclick="guest_login()">Continue as Guest</a></h6>
 </div>
 
 <script>
     document.body.style.backgroundImage = "url('/static/pictures/homepage bg.jpg')";
     document.body.style.backgroundSize = "100% auto";
+
+    function guest_login(){
+        var confirmation = confirm('All info of guest account will be discarded on logout!');
+        if (confirmation){
+            $.ajax({
+                type: "GET",
+                url: location.origin + '/register',
+                data: {
+                    is_guest: true
+                },
+                success: function(){
+                    window.location.href = location.origin + '/user';
+                }
+            })
+        }
+    }
 </script>
 
 {% endblock %}

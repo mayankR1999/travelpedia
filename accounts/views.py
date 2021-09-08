@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.urls import reverse
 from main.models import UserDetails
-import re
+import re, random
 
 # Create your views here.
 
@@ -61,6 +61,28 @@ def register(request):
             return HttpResponseRedirect(reverse('register'))
 
     else:
+        is_guest = False
+        try:
+            is_guest = request.GET['is_guest']
+        except Exception:
+            pass
+
+        if is_guest:
+            random_number = random.randint(100000, 999999)
+            username, password = 'guest'+str(random_number), "Random12#"
+            first_name, last_name = 'Guest', str(random_number)
+            
+            new_user = User(username = username, first_name = first_name, email = str(random_number) + '@random.com',
+                        last_name = last_name, password = password)
+            new_user.save()
+
+            new_user_details = UserDetails(user = new_user, username = username, first_name = first_name,
+                        last_name = last_name, full_name = first_name + ' ' + last_name, is_guest = True)
+            new_user_details.save()
+
+            auth.login(request, new_user)
+            return HttpResponse('')
+
         return render(request, 'register.html')
 
 
@@ -80,5 +102,9 @@ def login(request):
 
 
 def logout(request):
+    concerned_username = request.user.username
     auth.logout(request)
+    if UserDetails.objects.get(username = concerned_username).is_guest:
+        User.objects.get(username = concerned_username).delete()
+    
     return redirect('/')

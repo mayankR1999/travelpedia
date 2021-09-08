@@ -8,6 +8,10 @@
 
     {% include 'posts-scrolling-layout.html' %}
 
+    {% if not posts %}
+        <h4 style="text-align: center;">Try following some people from explore page</h4>
+    {% endif %}
+
 {% else %}
     <div class="container" style="text-align: center;">
         <h2>You are required to sign in for viewing this page.</h2>

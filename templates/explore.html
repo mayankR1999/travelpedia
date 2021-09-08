@@ -12,7 +12,7 @@
             
             <div class="search-location-form">
                 <input class="form-control me-2" id="search-location-input" type="text" name="search-query" placeholder="Search Location" aria-label="Search Location">
-                <button class="btn btn-outline-light" id="search-location-go" onclick="search_post()">Go</button>
+                <button class="btn btn-outline-light" id="search-location-go" onclick="search_location()">Go</button>
             </div>
             <span class="fas fa-search-location search-icon" id="search-location-icon" onclick="search_location_transition()"></span>
 
@@ -244,6 +244,10 @@
         $("#search-location-go").show();
         $("#search-location-input").show().animate({width: '200px'}, "normal");
         $("#explore-users").slideUp();
+    }
+
+    function search_location(){
+        alert("This feature is currently in development!");
     }
 
     function preview_post(postID, userID){

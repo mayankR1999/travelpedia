@@ -236,7 +236,7 @@
         var confirmation = confirm('Do you want to remove this follower?')
         if (confirmation){
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "{% url 'remove_follower' %}",
                 data: {
                     user_id: followerID

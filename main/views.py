@@ -6,17 +6,23 @@ from .models import Posts, UserDetails, Comment
 from django.core import serializers
 from .functions import *
 from PIL import Image
+from operator import attrgetter
 import os, json
 
 # Create your views here.
 
 def userFeed(request):
-    all_posts = Posts.objects.all()
     user_details = UserDetails.objects.get(pk = request.user)
+
+    filtered_posts = []
+    for following in user_details.following.all():
+        filtered_posts += list(Posts.objects.filter(owner = following))
+
+    filtered_posts = sorted(filtered_posts, key=attrgetter('timestamp'), reverse=True)
     
     context = {
         'is_profile_page': False,
-        'posts': process_likes_and_avatars(all_posts),
+        'posts': process_likes_and_avatars(filtered_posts),
         'info': {
             'followers': user_details.followers.all(),
             'following': user_details.following.all()

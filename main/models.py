@@ -25,6 +25,7 @@ class Posts(models.Model):
 
 class UserDetails(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    is_guest = models.BooleanField(default = False)
     username = models.CharField(max_length=30)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
