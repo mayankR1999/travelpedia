@@ -25,7 +25,7 @@ SECRET_KEY = 'oc+6mb%n!@13folpbo_hd^fq3+w4=mt)qrp$#+@%1a0+_y85lf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver', 'fierce-sands-31321.herokuapp.com']
 
 
 # Application definition
