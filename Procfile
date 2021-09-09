@@ -1,0 +1,1 @@
+web: gunicorn travelpedia.wsgi
