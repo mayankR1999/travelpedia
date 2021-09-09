@@ -7,7 +7,7 @@ from django.core import serializers
 from .functions import *
 from PIL import Image
 from operator import attrgetter
-import os, json
+import os, json, random
 
 # Create your views here.
 
@@ -173,7 +173,13 @@ def explore(request):
         pass
     else:
         logged_user_details = UserDetails.objects.get(pk = request.user)
-        accounts = list(UserDetails.objects.all())
+
+        accounts = []
+        for account in UserDetails.objects.all():
+            if account.user.id != request.user.id:
+                accounts.append(account)
+
+        random.shuffle(accounts)
 
         context = {
             'posts': Posts.objects.all(),
