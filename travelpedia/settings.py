@@ -93,10 +93,11 @@ CACHES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'travelpediadb',
-        'USER': 'postgres',
-        'PASSWORD': 'frands',
-        'HOST': 'localhost'
+        'NAME': 'd9cp7lv3rkk5ff',
+        'HOST': 'ec2-54-145-188-92.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'xjgrvlfmyhbdcp',
+        'PASSWORD': '18c1b9fe29d839b70351edf231de105fadde0b175461f19ea8d9d92b7b253584'
     }
 }
 
