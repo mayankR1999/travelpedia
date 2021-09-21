@@ -7,7 +7,7 @@ import time
 class Posts(models.Model):
     place = models.CharField(max_length=30)
     experience = models.CharField(max_length=250)
-    img = models.ImageField(upload_to = 'pictures')
+    img = models.ImageField(upload_to = '')
     owner = models.ForeignKey(User, on_delete = models.CASCADE)
     likes = models.ManyToManyField(User, related_name = 'user_post_likes')
     total_likes = models.IntegerField(default = 0)
@@ -30,7 +30,7 @@ class UserDetails(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     full_name = models.CharField(max_length=60)
-    display_picture = models.ImageField(upload_to='pictures', default='../static/pictures/avatardefault.png')
+    display_picture = models.ImageField(upload_to='', default='../avatardefault.png')
     user_description = models.CharField(max_length=250, null=True)
     followers = models.ManyToManyField(User, related_name='user_followers')
     following = models.ManyToManyField(User, related_name='user_following')

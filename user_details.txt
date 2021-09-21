@@ -1,16 +1,38 @@
 s.no. username : password
 
 1. test : Test@acc1
-
-2. mayank_raj : Mayank%99
-
-3. kantilal420 : Kanti%99
-
-4. m.s.dhoni7 : 7#Captain#7
-
-5. i_am_iron_man : 1$Robertdj
-
-6. doge_hue_hue : 34%iamdog$$
+2. mayank_raj : Test@acc1
+3. kohli18 : Test@acc1
+4. msdhoni7 : Test@acc1
+5. raghav45 : Test@acc1
+6. rashmika_1 : Test@acc1
+7. tanya_10_1 : Test@acc1
+8. tarasitara : Test@acc1
+9. geeky_ranjit : Test@acc1
+10. taniaz_world : Test@acc1
+11. tavishiiii : Test@acc1 Done
+12. living4travel : Test@acc1
+13. vivek__binny : Test@acc1
+14. amitjaiswal : Test@acc1
+15. ouweywemewe : Test@acc1
+16. vidisa.verma : Test@acc1
+17. lalit_tondon90 : Test@acc1
+18. paul.pogba1 : Test@acc1
+19. srk_not_original : Test@acc1
+20. lakshya__11 : Test@acc1
+21. arshad_warsi1_ : Test@acc1
+22. rohit99 : Test@acc1
+23. mayank_a : Test@acc1
+24. mayanksharma21 : Test@acc1
+25. gabru_jamy : Test@acc1
+26. rocky78 : Test@acc1
+27. happysingh4 : Test@acc1
+28. luckysharma29 : Test@acc1
+29. david88 : Test@acc1
+30. shelly__1 : Test@acc1
+31. cameron.dude : Test@acc1
+32. charlotte01 : Test@acc1
+33. ashley.online : Test@acc1
 
 superuser : password
 
@@ -21,3 +43,5 @@ default user:
 1. default : IaMd4lt#0c$
 
 video link : https://youtu.be/13gFXvFzXN4
+
+http://fierce-sands-31321.herokuapp.com/

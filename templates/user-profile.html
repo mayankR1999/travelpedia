@@ -37,7 +37,7 @@
                 </div>
                 {% endif %}
                 <div class="dp-contain-box">
-                    {% if info.dp.url != '/static/pictures/avatardefault.png' %}
+                    {% if info.dp.url != 'https://mayankmediastorage.blob.core.windows.net/media/avatardefault.png' %}
                         <style>#display-picture{ border: 1.5px rgb(240, 240, 240) solid; }</style>
                     {% endif %}
                     <img id="display-picture" style="border-radius: 100px;" src="{{info.dp.url}}" alt="Couldn't load image!" height="200px" width="200px">
@@ -171,7 +171,7 @@
             url: '{% url "remove_dp" %}',
             data: {},
             success: function(response){
-                profile_pic.setAttribute("src", '../../static/pictures/avatardefault.png')
+                profile_pic.setAttribute("src", 'https://mayankmediastorage.blob.core.windows.net/media/avatardefault.png')
             }
         })
     })
