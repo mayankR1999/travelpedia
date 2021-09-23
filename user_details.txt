@@ -1,16 +1,16 @@
 s.no. username : password
 
 1. test : Test@acc1
-2. mayank_raj : Test@acc1
+2. dev_acc : Test@acc1
 3. kohli18 : Test@acc1
 4. msdhoni7 : Test@acc1
 5. raghav45 : Test@acc1
 6. rashmika_1 : Test@acc1
-7. tanya_10_1 : Test@acc1
+7. shags11 : Test@acc1
 8. tarasitara : Test@acc1
 9. geeky_ranjit : Test@acc1
 10. taniaz_world : Test@acc1
-11. tavishiiii : Test@acc1 Done
+11. tavishiii : Test@acc1 Done
 12. living4travel : Test@acc1
 13. vivek__binny : Test@acc1
 14. amitjaiswal : Test@acc1
