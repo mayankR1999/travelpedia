@@ -1,4 +1,7 @@
 function follow(accountID){
+    $('#follow' + accountID).hide();
+    $('#unfollow' + accountID).show();
+
     $.ajax(
     {
         type:"GET",
@@ -8,8 +11,6 @@ function follow(accountID){
             request_type: 'follow'
         },
         success: function(data){
-            $('#follow' + accountID).hide();
-            $('#unfollow' + accountID).show();
         }
     })
     
@@ -19,6 +20,9 @@ function follow(accountID){
 }
 
 function unfollow(accountID){
+    $('#unfollow' + accountID).hide();
+    $('#follow' + accountID).show();
+
     $.ajax(
     {
         type: "GET",
@@ -28,8 +32,6 @@ function unfollow(accountID){
             request_type: 'unfollow'
         },
         success: function(data){
-            $('#unfollow' + accountID).hide();
-            $('#follow' + accountID).show();
         }
     })
 
@@ -40,30 +42,34 @@ function unfollow(accountID){
 
 function like_post(postID){
     var element = document.querySelector('#lb'+postID);
+    var old_likes_str = document.getElementById("number_of_likes" + postID).innerHTML.trim();
+    var new_likes = parseInt(old_likes_str.split(" ")[0]);
+
     if(element.classList.contains('fa')){
+        new_likes -= 1;
         element.classList.remove('fa');
         element.classList.add('far');
     }
     else{
+        new_likes += 1;
         element.classList.remove('far');
         element.classList.add('fa');
     }
+
+    if (new_likes == 1){
+        new_likes = '1 like';
+    }else{
+        new_likes = new_likes + ' likes';
+    }
+    document.getElementById('number_of_likes'+postID).innerHTML = new_likes;
+
     $.ajax({
         type:"GET",
         url: location.origin + '/user/like',
         data:{
             post_id: postID
         },
-        success: function(data)
-        {   
-            var num_likes = '';
-            if (data['numberoflikes'] == '1'){
-                num_likes = '1 like';
-            }else{
-                num_likes = data['numberoflikes']+' likes';
-            }
-            document.getElementById('number_of_likes'+postID).innerHTML = num_likes;
-        }
+        success: function(data){}
     })
 }
 
