@@ -154,13 +154,18 @@
 
         design_new_acc_box: function(info){
             var corresponding_button = '';
-            if (this.logged_user_following_ids.has(info.user_id)){
-                corresponding_button += '<button class="show-following-or-not"' +
-                'onclick="unfollow(accountID = ' + info.user_id + ')" id="unfollow' + info.user_id + '">Following</button>'
+            if (this.logged_user_following_ids.has(parseInt(info.user_id))){
+                corresponding_button += ('<button class="custom-follow-button"' +
+                'onclick="follow(accountID = ' + info.user_id + ')" style="display:none;" id="follow' + info.user_id + '">Follow</button>' +
+                '<button class="show-following-or-not"' +
+                'onclick="unfollow(accountID = ' + info.user_id + ')" id="unfollow' + info.user_id + '">Following</button>');
             }else{
-                corresponding_button += '<button class="custom-follow-button"' +
-                'onclick="follow(accountID = ' + info.user_id + ')" id="follow' + info.user_id + '">Follow</button>'
+                corresponding_button += ('<button class="custom-follow-button"' +
+                'onclick="follow(accountID = ' + info.user_id + ')" id="follow' + info.user_id + '">Follow</button>' +
+                '<button class="show-following-or-not"' +
+                'onclick="unfollow(accountID = ' + info.user_id + ')" style="display:none;" id="unfollow' + info.user_id + '">Following</button>');
             }
+            console.log(corresponding_button);
 
             var new_html = (
                 '<div class="account-recommend-box" id="account-recommend-box' + info.user_id + '">' +

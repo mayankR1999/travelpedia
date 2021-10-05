@@ -12,6 +12,10 @@ function follow(accountID){
             $('#unfollow' + accountID).show();
         }
     })
+    
+    try{
+        accounts_slider.logged_user_following_ids.add(parseInt(accountID));
+    }catch(err){}
 }
 
 function unfollow(accountID){
@@ -28,6 +32,10 @@ function unfollow(accountID){
             $('#follow' + accountID).show();
         }
     })
+
+    try{
+        accounts_slider.logged_user_following_ids.remove(parseInt(accountID));
+    }catch(err){}
 }
 
 function like_post(postID){
